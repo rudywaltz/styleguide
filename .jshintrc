@@ -1,0 +1,94 @@
+{
+    // When set to true, these options will make JSHint produce more warnings about your code.
+
+    /* Enforcing options
+    -------------------------------------------------------------------------------------------- */
+
+    // This option requires you to always put curly braces around blocks in loops and conditionals.
+    "curly": true,
+
+    // This options prohibits the use of == and != in favor of === and !==.
+    "eqeqeq": true,
+
+    // Use this option if you need your program to be executable in older browsers—such as Internet Explorer 6/7/8/9—and other legacy JavaScript environments.
+    "es3": true,
+
+    // This options prohibits overwriting prototypes of native objects.
+    "freeze": true,
+
+    // This option prohibits the use of immediate function invocations without wrapping them in parentheses.
+    "immed": true,
+
+    //
+    "latedef": true,
+
+    //
+    "newcap": true,
+
+    //
+    "noarg": true,
+
+    //
+    "noempty": true,
+
+    //
+    "nonbsp": true,
+
+    //
+    "nonew": true,
+
+    //
+    "quotmark": true,
+
+    //
+    "undef": true,
+
+    //
+    "unused": true,
+
+    //
+    "strict": true,
+
+    //
+    "trailing": true,
+
+    //
+    "maxparams": 3,
+
+    //
+    "maxdepth": 3,
+
+    //
+    "maxcomplexity": 12,
+
+    //
+    "maxlen": 100,
+
+
+
+    /* Relaxing options
+    -------------------------------------------------------------------------------------------- */
+
+    //
+    //"smarttabs": true,
+    "laxbreak": true,
+
+
+
+    /* Environments
+    -------------------------------------------------------------------------------------------- */
+
+    //
+    "browser": true,
+
+    //
+    "jquery": true,
+
+
+
+    /* Legacy
+    -------------------------------------------------------------------------------------------- */
+
+    //
+    "onevar": true
+}

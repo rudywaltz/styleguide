@@ -1,0 +1,259 @@
+/*
+# Form
+
+Styleguide 2
+*/
+
+/*
+# Form elements
+
+<b>Used base variables:</b>
+<pre><code>
+$color-input-border
+$color-input-bg
+$color-required-color
+$box-input-width
+$box-input-width-short
+$box-input-width-shorter
+$box-input-width-long
+$box-input-border-radius
+$box-textarea-width
+$box-textarea-height
+$box-textarea-height-short
+</code></pre>
+
+Markup:
+<div class="form-line">
+	<label for="sample1">Example text:</label>
+	<input type="text" id="sample1" name="sample1" class="input" />
+</div>
+<div class="form-line">
+	<label for="sample2">Example select:</label>
+	<select id="sample2" name="sample2">
+		<option>Choose an option</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+</div>
+<div class="form-line">
+	<label>Example checkbox:</label>
+	<input type="checkbox" id="sample3" name="sample3" />
+	<label for="sample3">Example checkbox</label>
+</div>
+<div class="form-line">
+	<label>Example radio:</label>
+	<input type="radio" id="sample4" name="sample4" checked="checked" />
+	<label for="sample4">Yes</label>
+	<input type="radio" id="sample5" name="sample4" />
+	<label for="sample5">No</label>
+</div>
+<div class="form-line">
+	<label for="sample6">Example textarea:</label>
+	<textarea id="sample6" name="sample6"></textarea>
+</div>
+<div class="form-line">
+	<label></label>
+	<input type="submit" class="button" />
+</div>
+
+Styleguide 2.1
+*/
+
+/*
+#Required elements
+
+Markup:
+<div class="form-line {$modifiers}">
+	<label for="sample1">Example text:</label>
+	<input type="text" id="sample1" name="sample1" class="input" />
+</div>
+<div class="form-line {$modifiers}">
+	<label for="sample2">Example select:</label>
+	<select id="sample2" name="sample2">
+		<option>Choose an option</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+</div>
+
+.required - required element
+
+Styleguide 2.2
+*/
+
+
+// Module variables:
+$module-form-color-input-border: $color-input-border;
+$module-form-color-input-bg: $color-input-bg;
+$module-form-color-required-color: $color-required-color;
+
+$module-form-box-input-width: $box-input-width;
+$module-form-box-input-width-short: $box-input-width-short;
+$module-form-box-input-width-shorter: $box-input-width-shorter;
+$module-form-box-input-width-long: $box-input-width-long;
+$module-form-box-input-border-radius: $box-input-border-radius;
+$module-form-box-textarea-width: $box-textarea-width;
+$module-form-box-textarea-height: $box-textarea-height;
+$module-form-box-textarea-height-short: $box-textarea-height-short;
+
+.form-line {
+	margin: 15px 0;
+	label {
+		display: inline-block;
+		margin-right: 20px;
+		text-align: right;
+		width: 150px;
+	}
+	input[type=text],
+	input[type=search],
+	input[type=tel],
+	input[type=url],
+	input[type=email],
+	input[type=password],
+	input[type^=date],
+	input[type=color],
+	input[type=week],
+	input[type=month],
+	input[type=time],
+	input[type=number],
+	input[type=range],
+	select {
+		background: $module-form-color-input-bg;
+		border-radius: $module-form-box-input-border-radius;
+		border: 1px solid $module-form-color-input-border;
+		padding: 5px;
+		transition: box-shadow 0.2s ease-in-out;
+		width: $module-form-box-input-width;
+		&:focus {
+			box-shadow: 0 0 5px rgba($module-form-color-input-border, 1);
+		}
+	}
+	select {
+		padding: 4px 5px; //fix select padding (-1px)
+	}
+	textarea {
+		background: $module-form-color-input-bg;
+		border: 1px solid $module-form-color-input-border;
+		border-radius: $module-form-box-input-border-radius;
+		height: $module-form-box-textarea-height;
+		max-width: 100%;
+		padding: 5px;
+		transition: box-shadow 0.2s ease-in-out;
+		vertical-align: top;
+		width: $module-form-box-textarea-width;
+		&:focus {
+			box-shadow: 0 0 5px rgba($module-form-color-input-border, 1);
+		}
+	}
+	input[type="checkbox"] + label, input[type="radio"] + label {
+		margin-right: 10px;
+		width: auto;
+		&:before {
+			background: url(../images/icons/checkbox_radio.png);
+			content: "";
+			display: inline-block;
+			height: 16px;
+			margin-bottom: 4px;
+			margin-right: 5px;
+			overflow: hidden;
+			vertical-align: middle;
+			width: 16px;
+		}
+	}
+	input[type="radio"] + label:before {
+		background-position: 16px 0;
+	}
+	input[type="checkbox"]:checked + label:before {
+		background-position: 0 16px;
+	}
+	input[type="radio"]:checked + label:before {
+			background-position: 16px 16px;
+	}
+	input[type="checkbox"], input[type="radio"] {
+		background: none;
+		border: 0;
+		display: none;
+		height: auto;
+		margin: 0;
+		width: auto;
+		.lte-ie8 & {
+			display: inline;
+		}
+	}
+	&.label-top {
+		label {
+			display: block;
+			margin-bottom: 6px;
+			text-align: left;
+		}
+		textarea {
+			width: 100%;
+		}
+	}
+	&.required{
+		label{
+			&:after{
+				color: $module-form-color-required-color;
+				content: "*";
+			}
+		}
+	}
+}
+
+/*
+# Text input sizes
+
+Markup:
+<div class="form-line label-top">
+	<label>Example text:</label>
+	<input type="text" class="{$modifiers}" />
+</div>
+
+.short - A bit shorter now.
+.shorter - A little bit shorter now.
+.long - A bit longer now
+
+Styleguide 2.3
+*/
+
+.form-line {
+	input, select {
+		&.short {
+			width: $module-form-box-input-width-short;
+		}
+		&.shorter {
+			width: $module-form-box-input-width-shorter;
+		}
+		&.long {
+			width: $module-form-box-input-width-long;
+		}
+	}
+}
+
+/*
+# Textarea sizes
+
+Markup:
+<div class="form-line label-top">
+	<label>Example textarea:</label>
+	<textarea class="{$modifiers}"></textarea>
+</div>
+
+.short - A bit shorter now.
+
+Styleguide 2.4
+*/
+
+.form-line {
+	textarea {
+		&.short {
+			height: $box-textarea-height-short;
+		}
+	}
+}

@@ -1,0 +1,128 @@
+// Colors settings
+
+$color-brand: #2980b9;
+$color-brand-light: lighten($color-brand, 10%);
+$color-brand-dark: darken($color-brand, 10%);
+
+$color-button-bg: #ECECEC;
+$color-button-bg-dark: #616161;
+$color-button-text: #505050;
+$color-button-text-light: #fff;
+
+$color-box-bg: #F7F7F7;
+$color-box-border: #ccc;
+
+$color-input-border: #CFCFCF;
+$color-input-bg: #FDFDFD;
+$color-required-color: #f26263;
+
+$color-alert: #e74c3c;
+$color-success: #27ae60;
+$color-warning: #F39C12;
+$color-highlight: #2980b9;
+
+$color-error: #f26263;
+
+$color-tooltip-text: #fff;
+$color-tooltip-bg: #000;
+
+// Box settings
+
+$box-button-border-radius: 3px;
+
+$box-input-width: 400px;
+$box-input-width-short: 220px;
+$box-input-width-shorter: 80px;
+$box-input-width-long: 100%;
+$box-textarea-width: 700px;
+$box-textarea-height: 130px;
+$box-textarea-height-short: 45px;
+$box-input-border-radius: 3px;
+
+$box-tab-border-radius: 3px;
+
+$box-tooltip-border-radius: 3px;
+$box-tooltip-padding: 5px 10px;
+$box-tooltip-width: 180px;
+
+// Text settings
+
+$text-base-size: 13px;
+$text-tooltip-size: 12px;
+$text-tooltip-align: center;
+
+
+
+
+
+/*
+# Colors
+
+Styleguide 6
+*/
+
+/*
+# Colors
+
+
+Your color
+
+
+Markup: <div class="{$modifiers}" style="width: 700px; padding: 20px">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, itaque ad pariatur dolore iusto rem perferendis odio explicabo! Ab, repellat sed provident rem. Deleniti, maiores perferendis optio debitis nostrum illum.</div>
+
+.color-brand: - #2980b9;
+.color-brand-light: - lighten($color-brand, 10%);
+.color-brand-dark: - darken($color-brand, 10%);
+.color-button-bg: - #ECECEC;
+.color-button-bg-dark: - #616161;
+.color-button-text: - #505050;
+.color-button-text-light: - #fff;
+.color-box-bg: - #F7F7F7;
+.color-box-border: - #ccc;
+.color-input-border: - #CFCFCF;
+.color-input-bg: - #FDFDFD;
+.color-required-color: - #f26263;
+.color-alert: - #e74c3c;
+.color-success: - #27ae60;
+.color-warning: - #F39C12;
+.color-highlight: - #2980b9;
+.color-error: - #f26263;
+.color-tooltip-text: - #fff;
+.color-tooltip-bg: - #000;
+
+Styleguide 6.1
+*/
+
+
+$project-colors: (
+	color-brand: $color-brand,
+	color-brand-light: $color-brand-light,
+	color-brand-dark: $color-brand-dark,
+	color-button-bg: $color-button-bg,
+	color-button-bg-dark: $color-button-bg-dark,
+	color-button-text: $color-button-text,
+	color-button-text-light: $color-button-text-light,
+	color-box-bg: $color-box-bg,
+	color-box-border: $color-box-border,
+	color-input-border: $color-input-border,
+	color-input-bg: $color-input-bg,
+	color-required-color: $color-required-color,
+	color-alert: $color-alert,
+	color-success: $color-success,
+	color-warning: $color-warning,
+	color-highlight: $color-highlight,
+	color-error: $color-error,
+	color-tooltip-text: $color-tooltip-text,
+	color-tooltip-bg: $color-tooltip-bg
+);
+
+@each $class, $color in $project-colors {
+    .#{$class}{
+        background-color: $color;
+     	@if lightness($color) <50%{
+	       color: lighten($color, 35%);
+    	}@else{
+	       color: darken($color, 35%);
+    	}
+    }
+}

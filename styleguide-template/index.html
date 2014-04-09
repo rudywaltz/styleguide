@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+	<title>KSS: Living Styleguide</title>
+	<meta name="description" content="">
+	<meta name="generator" content="kss-node" />
+
+	<meta name="viewport" content="width=device-width">
+
+	<script src="../../js/libs/modernizr.custom.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="public/kss.css">
+	<link rel="stylesheet" href="public/styleguide.css">
+	<link rel="stylesheet" href="../../css/style.min.css">
+
+</head>
+<body>
+	<div class="styleguide__wrapper styleguide__clearfix">
+		<nav class="styleguide__menu" role="main">
+			<ul>
+				<li><a href="index.html">0.0: Overview</a></li>
+				{{#eachRoot}}
+				<li><a href="section-{{reference}}.html">{{reference}}.0: {{header}}</a></li>
+				{{/eachRoot}}
+			</ul>
+		</nav>
+		<div class="styeguide__rightside">
+			<article class="styleguide">
+				{{#if overview}}
+					{{html overview}}
+				{{else}}
+				{{!
+					Find each section, in order.
+					If there's no markup or modifiers supplied, use a Markdown-only
+					layout instead.
+
+					The "root" element comes first in this loop, and can be detected using
+					the "#whenDepth 1" block as seen below.
+				}}
+			{{#eachSection rootNumber}}
+			{{#whenDepth 1}}
+			<h1 class="styleguide__header"><span class="styleguide__reference">{{ reference }}.0</span> -  <span class="styleguide__title">{{ header }}</span></h1>
+			{{else}}
+			<section class="kss-depth-{{ refDepth }}">
+				<h1 class="styleguide__header"><span class="styleguide__reference">{{ reference }}</span> -  <span class="styleguide__title">{{ header }}</span></h1>
+				{{/whenDepth}}
+				{{#ifAny markup modifiers}}
+				<div class="styleguide__description">{{html description}}</div>
+				<div class="styleguide__elements">
+					<div class="">
+						<div class="styleguide__description"><p>Default styling</p></div>
+						<div class="kss-mod-name"></li>
+						</div>
+						<div class="styleguide__element">
+							<div colspan="2">{{modifierMarkup}}</div>
+						</div>
+						{{#eachModifier}}
+						<div class="styleguide__element">
+							<div class="styleguide__description">{{html description}}</div>
+							<div class="styleguide__element__modifier-label"><p>{{name}}</p></div>
+						</div>
+						<div class="styleguide__element">
+							<div colspan="2">{{modifierMarkup}}</div>
+						</div>
+						{{/eachModifier}}
+					</div>
+
+
+
+					<div class="styleguide__html">
+						<pre class="prettyprint lang-html">{{markup}}</pre>
+					</div>
+					{{else}}
+					{{#if description}}
+					{{html description}}
+					{{/if}}
+					{{/ifAny}}
+					{{#whenDepth 1}} {{else}}
+				</section>
+				{{/whenDepth}}
+				{{/eachSection}}
+				{{/if}}
+			</article>
+		</div>
+	</div>
+		<!-- SCRIPTS -->
+	<!--[if lt IE 9]>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../js/lib/jquery-1.11.0.min.js"><\/script>')</script>
+	<![endif]-->
+	<!--[if (gte IE 9) | (!IE)]><!-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../js/lib/jquery-2.1.0.min.js"><\/script>')</script>
+	<!--<![endif]-->
+	<script src="public/kss.js"></script>
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+	<script src="../../js/app.min.js"></script>
+	<script>
+		$(document).ready(function(){
+	  // Ensure code blocks are highlighted properly...
+	  $('pre>code').addClass('prettyprint');
+	});
+</script>
+
+{{! This won't be included in the demo page }}
+
+</body>
+</html>

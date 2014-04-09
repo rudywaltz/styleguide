@@ -1,0 +1,167 @@
+/*
+# Tooltips
+
+Styleguide 5
+*/
+
+/*
+# Tooltips
+
+Tooltips
+
+<b>Used base variables:</b>
+<div class="desc_code">
+$color-tooltip-text
+$color-tooltip-bg
+$box-tooltip-border-radius
+$box-tooltip-padding
+$text-tooltip-size
+</div>
+
+Markup: <p>lorem ipsum dolor sit amet mei mecum <span class="tooltip" data-tooltip-position="{$modifiers}" aria-label="loremipsum dolor sit amet">Tooltip position:<em>{$modifiers}</em></span> Aquila non captat muscas</p>
+
+top    - Highlights when hovering.
+bottom - Dims the button when disabled.
+left  - Indicates button is the primary action.
+right  - A smaller button
+
+Styleguide 5.1
+*/
+
+
+$module-tooltip-color-tooltip-text: $color-tooltip-text;
+$module-tooltip-color-tooltip-bg: $color-tooltip-bg;
+$module-tooltip-box-tooltip-border-radius: $box-tooltip-border-radius;
+$module-tooltip-box-tooltip-padding: $box-tooltip-padding;
+$tooltip-font-size: $text-tooltip-size;
+
+[aria-label] {
+	cursor:  default;
+	display: inline-block;
+	position: relative;
+	text-decoration: underline;
+	&:before, &:after {
+		bottom: 125%;
+		opacity: 0;
+		//transition: all .2s ease-in-out;
+		visibility: hidden;
+	}
+
+	&:after { // text of tooltip
+		background: $module-tooltip-color-tooltip-bg;
+		border-radius: $module-tooltip-box-tooltip-border-radius;
+		color: $module-tooltip-color-tooltip-text;
+		content: attr(aria-label);
+		font-size: $tooltip-font-size;
+		padding: $module-tooltip-box-tooltip-padding;
+		position: absolute;
+		white-space: nowrap;
+		z-index: 2;
+		.csstransforms &{
+			left:50%;
+			transform: translateX(-50%);
+		}
+		.no-csstransforms &{
+			left:0;
+		}
+	}
+
+	&:before {
+		content: "";
+		height: 0;
+		position: absolute;
+		width: 0;
+		.csstransforms &{
+			left:50%;
+		}
+		.no-csstransforms &{
+			left:15px;
+		}
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid $module-tooltip-color-tooltip-bg;
+		margin-bottom: -4px;
+		margin-left: -5px;
+	}
+
+	&:hover:before, &:hover:after {
+		bottom: 115%;
+		opacity: 1;
+		visibility: visible;
+	}
+
+
+	&[data-tooltip-position="bottom"] {
+		&:after, &:before {
+			bottom: auto;
+			top: 125%;
+		}
+		&:before {
+			border-bottom: 5px solid $module-tooltip-color-tooltip-bg;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-top:0;
+			margin-bottom: auto;
+			margin-top: -4px;
+		}
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			top: 115%;
+		}
+	}
+
+	&[data-tooltip-position="right"], &[data-tooltip-position="left"] {
+		&:after, &:before {
+			border:  0;
+			left:  auto;
+			.csstransforms &{
+				top:45%;
+				transform: translateY(-45%);
+			}
+			.no-csstransforms &{
+				top:-15%;
+			}
+		}
+	}
+
+	&[data-tooltip-position="right"] {
+		&:after, &:before {
+			bottom: auto;
+			left: 115%;
+		}
+		&:before {
+			border-bottom: 5px solid transparent;
+			border-right: 5px solid $module-tooltip-color-tooltip-bg;
+			border-top: 5px solid transparent;
+			margin-left: -4px;
+			.no-csstransforms &{
+				top: 5px;
+			}
+		}
+
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			left: 105%;
+		}
+	}
+
+	&[data-tooltip-position="left"] {
+		&:after, &:before {
+			bottom: auto;
+			right: 115%;
+		}
+		&:before {
+			border-bottom: 5px solid transparent;
+			border-left: 5px solid $module-tooltip-color-tooltip-bg;
+			border-top: 5px solid transparent;
+			margin-right: -4px;
+			.no-csstransforms &{
+				top: 5px;
+			}
+		}
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			right: 105%;
+		}
+	}
+}

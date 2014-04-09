@@ -1,0 +1,177 @@
+/*
+# Alerts
+
+Styleguide 4
+*/
+
+/*
+# Alert messages
+
+<b>Used base variables:</b>
+<div class="desc_code">
+$color-box-bg
+$color-box-border
+$color-highlight
+$color-alert
+$color-success
+$color-warning
+</div>
+
+Markup:
+<div class="alert {$modifiers}">
+	<div class="alert-title">Lorem ipsum dolor</div>
+	<div class="alert-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+</div>
+
+.info - info
+.warning - warning
+.error - error
+.success - success
+
+Styleguide 4.1
+*/
+
+// Module variables:
+$module-alert-color-box-bg: $color-box-bg;
+$module-alert-color-box-border: $color-box-border;
+$module-alert-color-highlight: $color-highlight;
+$module-alert-color-alert: $color-alert;
+$module-alert-color-success: $color-success;
+$module-alert-color-warning: $color-warning;
+
+.alert {
+	background: $module-alert-color-box-bg;
+	border: 1px solid $module-alert-color-box-border;
+	padding: 15px;
+	position: relative;
+	.alert-title {
+		font-size: 18px;
+		font-weight: bold;
+		margin-bottom:7px;
+	}
+	&.info {
+		background: lighten($module-alert-color-highlight, 30);
+		border-color: $module-alert-color-highlight;
+	}
+	&.error {
+		background: lighten($module-alert-color-alert, 30);
+		border-color: $module-alert-color-alert;
+	}
+	&.success {
+		background: lighten($module-alert-color-success, 30);
+		border-color: $module-alert-color-success;
+	}
+	&.warning {
+		background: lighten($module-alert-color-warning, 30);
+		border-color: $module-alert-color-warning;
+	}
+}
+
+/*
+# Alert IcoMoon icons
+
+Markup:
+<div class="alert icon {$modifiers}">
+	<div class="alert-title">Lorem ipsum dolor</div>
+	<div class="alert-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+</div>
+
+.info - info with icon
+.warning - warning with icon
+.error - error with icon
+.success - sucess with icon
+
+Styleguide 4.2
+*/
+
+.alert {
+	&.icon {
+		.alert-title, .alert-content {
+			padding-left: 54px;
+		}
+		&:before {
+			float: left;
+			font-family: icomoon;
+			font-size: 36px;
+			@extend .icon-info;
+			color: darken($module-alert-color-box-bg, 50);
+		}
+		&.error:before {
+			@extend .icon-warning;
+			color: darken($module-alert-color-alert, 20);
+		}
+		&.warning:before {
+			@extend .icon-exclamation;
+			color: darken($module-alert-color-warning, 20);
+		}
+		&.success:before {
+			@extend .icon-checkmark;
+			color: darken($module-alert-color-success, 20);
+			font-size: 45px;
+			margin-left: -5px;
+		}
+		&.info:before {
+			@extend .icon-info;
+			color: darken($module-alert-color-highlight, 20);
+		}
+	}
+}
+
+/*
+# Close icon
+
+Markup:
+<div class="alert icon {$modifiers}">
+	<div class="alert-title">Lorem ipsum dolor</div>
+	<div class="alert-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+	<a href="#" class="alert-close"></a>
+</div>
+
+.info - info with icon + close
+.warning - warning with icon + close
+.error - error with icon + close
+.success - sucess with icon + close
+
+Styleguide 4.3
+*/
+
+.alert {
+	.alert-close {
+		@extend .icon-close;
+		color: rgba(darken($module-alert-color-box-bg, 50), .7);
+		display: inline-block;
+		font-family: icomoon;
+		font-size: 16px;
+		position: absolute;
+		right: 7px;
+		text-decoration: none;
+		top: 7px;
+		&:hover {
+			color: darken($module-alert-color-box-bg, 50);
+		}
+	}
+	&.error .alert-close {
+		color: rgba(darken($module-alert-color-alert, 20), .7);
+		&:hover {
+			color: darken($module-alert-color-alert, 20);
+		}
+	}
+	&.warning .alert-close {
+		color: rgba(darken($module-alert-color-warning, 20), .7);
+		&:hover {
+			color: darken($module-alert-color-warning, 20);
+		}
+	}
+	&.success .alert-close {
+		color: rgba(darken($module-alert-color-success, 20), .7);
+		&:hover {
+			color: darken($module-alert-color-success, 20);
+		}
+	}
+	&.info .alert-close {
+		color: rgba(darken($module-alert-color-highlight, 20), .7);
+		&:hover {
+			color: darken($module-alert-color-highlight, 20);
+		}
+	}
+}

@@ -1,0 +1,279 @@
+/*
+# Error
+
+Standard form with error. You can set the position with <code>data-error-position</code>.
+
+<b>Used base variables:</b>
+<div class="desc_code">
+$color-error
+$text-tooltip-align
+$text-tooltip-size
+$box-tooltip-border-radius
+$box-tooltip-padding
+$box-tooltip-width
+</div>
+
+Markup:
+<div class="form-line">
+	<label for="member_email" data-error-position="{$modifiers}" class="error">
+		Example text:
+		<span class="errormsg">A mező kitöltése kötelező!</span>
+	</label>
+	<input type="email" name="member_email" id="member_email" value="" class="error">
+</div>
+<div class="form-line">
+	<label for="member_email" data-error-position="{$modifiers}" class="error">
+		Example textarea:
+		<span class="errormsg">A mező kitöltése kötelező!</span>
+	</label>
+	<textarea name="description" id="description" class="error"></textarea>
+</div>
+
+top    - Top position (default)
+right  - Right position
+bottom - Bottom position
+left  - Left position
+
+Styleguide 2.5
+*/
+
+
+/*
+# Input error without label
+
+You can set the position with <code>data-error-position</code>.
+
+Markup:
+<div class="form-line">
+	<span class="error-holder error" data-error-position="{$modifiers}">
+	   <input type="email" name="newsletter_email" class="email error" placeholder="E-mail cím" autocomplete="off">
+	   <div class="errormsg">A mező kitöltése kötelező!</div>
+	</span>
+</div>
+<div class="form-line">
+	<span class="error-holder error" data-error-position="{$modifiers}">
+	   <textarea class="error"></textarea>
+	   <div class="errormsg">A mező kitöltése kötelező!</div>
+	</span>
+</div>
+
+top    - Top position (default)
+right  - Right position
+bottom - Bottom position
+left  - Left position
+
+Styleguide 2.6
+*/
+
+
+
+$module-error-color: $color-error;
+$module-error-color-tooltip-bg: lighten($color-error, 30%);
+$module-error-color-tooltip-border: $color-error;
+$module-error-box-tooltip-border: 1px solid $module-error-color-tooltip-border;
+$module-error-box-tooltip-width: $box-tooltip-width;
+$module-error-text-tooltip-align: $text-tooltip-align;
+$module-error-color-input-border: $color-error;
+$module-error-color-input-bg: lighten($color-error, 20%);
+$module-error-box-tooltip-border-radius: $box-tooltip-border-radius;
+$module-error-box-tooltip-padding: $box-tooltip-padding;
+$module-error-text-tooltip-size: $text-tooltip-size;
+
+$module-error-loops: (
+	right,
+	bottom,
+	left
+);
+
+@mixin error-arrow($direction) {
+	@if $direction == right {
+		bottom: auto;
+	 	left: 100%;
+	 	margin-bottom: 0;
+		margin-left: 10px;
+	 	max-width: inherit;
+	 	top: -30%;
+	 	white-space: nowrap;
+	 	width: auto;
+	}
+	@if $direction == bottom {
+		bottom: auto;
+		margin-bottom: 0;
+		margin-top: 8px;
+		top: 100%;
+	}
+	@if $direction == left {
+		bottom: auto;
+		left: auto;
+		margin-bottom:0;
+		margin-right: 10px;
+		max-width: inherit;
+		right: 100%;
+		top: -30%;
+		white-space: nowrap;
+		width: auto;
+	}
+	&:after, &:before{
+		@if $direction == right {
+			left: auto;
+			right: 100%;
+			top: 50%;
+		}
+		@if $direction == bottom {
+			bottom: 100%;
+			left: 20%;
+			top: auto;
+		}
+		@if $direction == left {
+			left: 100%;
+			top: 50%;
+		}
+	}
+	&:after{
+		@if $direction == right {
+			border-right-color: $module-error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: -5px;
+		}
+		@if $direction == bottom {
+			border-bottom-color: $module-error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: -5px;
+			left: 20%;
+		}
+		@if $direction == left {
+			border-left-color: $module-error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-top: -5px;
+		}
+	}
+	&:before{
+		@if $direction == right {
+			border-right-color: $module-error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-right: 0;
+			margin-left: 0;
+			margin-top: -6px;
+		}
+		@if $direction == bottom {
+			border-bottom-color: $module-error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-left: -6px;
+		}
+		@if $direction == left {
+			border-left-color: $module-error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-top: -6px;
+		}
+	}
+}
+
+
+.errormsg{
+	border-radius: $module-error-box-tooltip-border-radius;
+	background: $module-error-color-tooltip-bg;
+	bottom: 100%;
+	border: $module-error-box-tooltip-border;
+	color: $module-error-color;
+	font-size: $module-error-text-tooltip-size;
+	left: 0;
+	margin-bottom: 10px;
+	opacity: 0;
+	padding: $module-error-box-tooltip-padding;
+	position: absolute;
+	text-align: $module-error-text-tooltip-align;
+	visibility: hidden;
+	width: $module-error-box-tooltip-width;
+	z-index: 500;
+	&:before, &:after{
+		border: solid transparent;
+		content: "";
+		height: 0;
+		left: 20%;
+		pointer-events: none;
+		position: absolute;
+		top: 100%;
+		width: 0;
+	}
+	&:after{
+		border-top-color: $module-error-color-tooltip-bg;
+		border-width: 5px;
+		margin-left: -5px;
+	}
+	&:before{
+		border-top-color: $module-error-color-tooltip-border;
+		border-width: 6px;
+		margin-left: -6px;
+	}
+	.no-csstransitions &{
+		display: none;
+	}
+	.csstransitions &{
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+input, textarea, select{
+	&.error{
+		background: $module-error-color-input-bg  !important;
+		border-color: $module-error-color-input-border !important;
+		&:focus {
+			box-shadow: 0 0 5px rgba($module-error-color-input-border, 1) !important;
+		}
+		&::-webkit-input-placeholder {
+			color: $module-error-color;
+		}
+		&:-moz-placeholder { /* Firefox 18- */
+			color: $module-error-color;
+		}
+		&::-moz-placeholder {  /* Firefox 19+ */
+			color: $module-error-color;
+		}
+		&:-ms-input-placeholder {
+			color: $module-error-color;
+		}
+	}
+}
+
+label, .error-holder{
+	position: relative;
+	&.error{
+		color: $module-error-color !important;
+		a{
+			color: darken($module-error-color, 10%);
+		}
+		&:hover{
+			.errormsg{
+				.no-csstransitions &{
+					display: inline-block;
+				}
+				.csstransitions &{
+					opacity: 1;
+					transition: all .2s ease-in-out;
+					visibility: visible;
+				}
+			}
+		}
+		&:after{
+			content: "" !important;
+			background: url(../images/icons/error_small.png);
+			display: inline-block;
+			height: 11px;
+			margin-left: 5px;
+			width: 15px;
+		}
+	}
+}
+
+@each $module-error-loop-item in $module-error-loops {
+	[data-error-position=#{$module-error-loop-item}] {
+		.errormsg{
+			@include error-arrow(#{$module-error-loop-item});
+		}
+	}
+}

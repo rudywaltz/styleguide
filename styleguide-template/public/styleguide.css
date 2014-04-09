@@ -1,0 +1,172 @@
+body {
+	font-family: Arial;
+	font-size: 13px;
+}
+.styleguide {
+    margin: 15px auto;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.styleguide__main-header {
+    padding: 10px;
+    font-size: 16px;
+    color: #666;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+}
+
+.styleguide__header {
+    margin: 0;
+    padding: 8px;
+    color: #fff;
+    font-size: 12px;
+    background: #333;
+    border-top: 1px solid #000;
+}
+.styleguide__wrapper {
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.styleguide__menu {
+  float: left;
+  width: 170px;
+  border: 4px solid #E7E7E7;
+  margin-top: 67px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.styleguide__menu ul {
+	border: 1px solid #ccc;
+	margin: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.styleguide__menu li {
+	border-bottom: 1px solid #ECECEC;
+	border-top: 1px solid #fff;
+	background: #fafafa;
+}
+.styleguide__menu li:last-child {
+	border-bottom: 0;
+}
+.styleguide__menu li:first-child {
+	border-top: 0;
+}
+.styleguide__menu li a {
+	color: #4183c4;
+	text-decoration: none;
+	padding: 8px 10px;
+	display: block;
+}
+.styleguide__menu li a:hover, .styleguide__menu li.active a {
+	background: #fff;
+}
+
+.styeguide__rightside{
+    float: right;
+    width: 1000px;
+}
+.styleguide__filename {
+    float: right;
+    text-transform: none;
+    font-style: normal;
+    font-weight: normal;
+    color: #999;
+}
+.styleguide__description {
+    padding: 10px 5px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+}
+.styleguide__description p:first-child {
+    margin-top: 0;
+}
+.styleguide__description p:last-child {
+    margin-bottom: 0;
+}
+.styleguide__modifiers {
+    margin: 0 0 0 10px;
+}
+.styleguide__modifiers li {
+    list-style-type: none;
+    margin-left: 0;
+}
+.styleguide__modifier-name {
+    font-weight: bold;
+}
+.styleguide__element {
+    position: relative;
+    padding: 20px;
+}
+.styleguide__element + .styleguide__element {
+    margin-top: -5px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+.styleguide__element__modifier-label {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 8px;
+    font-size: 11px;
+    color: #999;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-top: none;
+}
+.styleguide__element__modifier-label--extender:after {
+    content: url('/bundles/scankss/images/extender.png');
+    vertical-align: middle;
+    padding-left: 6px;
+}
+.styleguide__html {
+    background: #edf6f8;
+    border-top: 1px solid #dde7ea;
+    overflow: auto;
+    clear: both;
+}
+.styleguide__code {
+    font-family: Monaco, monospace;
+}
+
+
+.styleguide__clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.styleguide__clearfix:after {
+    clear: both;
+}
+
+.styleguide__html .prettyprint{
+    border: 0;
+	margin: 0;
+	padding: 15px;
+	-webkit-tab-size: 4;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	-ms-tab-size: 4;
+	tab-size: 4;
+	white-space: pre-wrap;
+}
+
+.desc_code {
+	font-family: monospace;
+	margin-top: -18px;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.styleguide__clearfix {
+    *zoom: 1;
+}
