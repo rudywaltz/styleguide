@@ -1,0 +1,608 @@
+@charset "UTF-8";
+
+$form-focus-box-shadow: '';
+// Module variables:
+$form-color-input-border: #cfcfcf !default;
+$form-color-input-bg: #fff !default;
+$form-color-input-text: #000 !default;
+$form-color-required-color: #f26263 !default;
+$form-color-placeholder: lighten($form-color-input-text, 70%) !default;
+$form-color-label-active: $form-color-input-text !default;
+$form-color-input-disabled-bg: #f5f5f5 !default;
+$form-color-postfix-bg: $form-color-input-border !default;
+$form-text-minfontsize: 11px !default;
+$form-box-height: 40px !default;
+$form-box-input-width: 400px !default;
+$form-box-input-width-short: 220px !default;
+$form-box-input-width-shorter: 80px !default;
+$form-box-input-width-long: 100% !default;
+$form-box-input-border-radius: 0 !default;
+$form-box-textarea-width: 100% !default;
+$form-box-textarea-height: 153px !default;
+$form-box-textarea-height-short: 45px !default;
+$form-focus-box-shadow: 0 0 5px rgba($form-color-input-border, 1) !default;
+
+$form-line-arrow: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSI1cHgiIHZpZXdCb3g9IjAgMCAxMCA1IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMCA1Ij4NCiAgPHBvbHlnb24gZmlsbD0iI0I1QjZCNiIgcG9pbnRzPSI1LDMuMiAwLDAgMCwwLjkgNSw1IDEwLDAuOSAxMCwwICIgLz4NCjwvc3ZnPg==') !default;
+
+
+$form-size: (
+	'default': (
+		size: 36px
+	),
+	'small': (
+		size: 24px
+	),
+	'big': (
+		size: 40px
+	),
+	'form-size-full-settings': (
+		size: 20px,
+		padding: 0 20px,
+		text-icon-font-size: 20px
+	)
+) !default;
+
+
+@each $class, $datas in $form-size {
+	$form-text-font-size: '';
+	$form-box-padding: '';
+	$form-text-icon-font-size: 1.5em;
+
+	$size: map-get($datas, size);
+
+	@if map-has-key($datas, font-size) {
+		$form-text-font-size: map-get($datas, font-size);
+	} @else {
+		@if ($size / 2.5) < $form-text-minfontsize {
+			$form-text-font-size: $form-text-minfontsize;
+		} @else {
+			$form-text-font-size: round($size / 2.5);
+		}
+	}
+
+	@if map-has-key($datas, text-icon-font-size) {
+		$form-text-icon-font-size: map-get($datas, text-icon-font-size);
+	}
+
+	@if map-has-key($datas, padding) {
+		$form-box-padding: map-get($datas, padding);
+	} @else {
+		$form-box-padding: 0 round($size / 2.5);
+	}
+	.form-line {
+		input[type=text],
+		input[type=search],
+		input[type=tel],
+		input[type=url],
+		input[type=email],
+		input[type=password],
+		input[type^=date],
+		input[type=color],
+		input[type=week],
+		input[type=month],
+		input[type=time],
+		input[type=number],
+		input[type=range],
+		select {
+			@if $class == default {
+				font-size: $form-text-font-size;
+				padding: $form-box-padding;
+				height: $size;
+
+				.lte-ie8 &{
+					line-height: $size;
+				}
+
+				& + .postfix {
+					height: $size;
+					line-height: $size;
+				}
+			} @else {
+				&.#{$class} {
+					font-size: $form-text-font-size;
+					padding: $form-box-padding;
+					height: $size;
+
+					.lte-ie8 &{
+						line-height: $size;
+					}
+
+					& + .postfix {
+						height: $size;
+						line-height: $size;
+					}
+				}
+			}
+
+			&.full-width {
+				width: 100%;
+			}
+		}
+
+		label {
+			@if $class == default {
+				font-size: $form-text-font-size;
+			} @else {
+				&.#{$class} {
+					font-size: $form-text-font-size;
+				}
+			}
+		}
+	}
+}
+
+
+.form-line {
+//	@extend .clearfix;
+	margin: 15px 0;
+	label {
+		display: block;
+		margin-bottom: 6px;
+	}
+	textarea {
+		width: 100%;
+	}
+	input[type=text],
+	input[type=search],
+	input[type=tel],
+	input[type=url],
+	input[type=email],
+	input[type=password],
+	input[type^=date],
+	input[type=color],
+	input[type=week],
+	input[type=month],
+	input[type=time],
+	input[type=number],
+	input[type=range],
+	select {
+		background: $form-color-input-bg;
+		border-radius: $form-box-input-border-radius;
+		border: 1px solid $form-color-input-border;
+		color: $form-color-input-text;
+		transition: box-shadow 0.2s ease-in-out;
+		width: $form-box-input-width;
+		-webkit-appearance: none;
+
+		&:focus {
+			@if $form-focus-box-shadow {
+				box-shadow: $form-focus-box-shadow;
+			}
+		}
+
+		&::placeholder {
+			color: $form-color-placeholder;
+		}
+		&:disabled {
+			background: $form-color-input-disabled-bg;
+		}
+	}
+
+	select {
+		color: $form-color-input-text;
+//		height: 40px;
+//		padding: 9px 16px 9px 7px; //fix select padding
+
+		// replace arrow
+		background-image: $form-line-arrow;
+		background-repeat: no-repeat;
+		background-position: 100% 50%;
+		-webkit-appearance: none;
+		&::-ms-expand {
+			display: none;
+		}
+		-moz-appearance: none;
+		text-indent: 0.01px;
+		text-overflow: '';
+
+		.ie9 &, .ie8 & {
+			background-image: none;
+		}
+	}
+
+	.styled-select {
+		position: relative;
+		display: inline-block;
+		@supports (pointer-events: none) {
+			&:after {
+				content: '';
+				background-image: $form-line-arrow;
+				background-color: #fff;
+				background-repeat: no-repeat;
+				background-position: 100% 50%;
+				pointer-events: none;
+				width: 24px;
+				height: 38px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				margin: 1px;
+				z-index: z-index($elements, cover);
+			}
+		}
+
+		&.styled-select.direction-rtl {
+			select {
+				padding-right: 28px;
+			}
+			@supports (pointer-events: none) {
+				&:before {
+					content: '';
+					background: #fff;
+					background-repeat: no-repeat;
+					background-position: 100% 50%;
+					pointer-events: none;
+					width: 24px;
+					height: 38px;
+					position: absolute;
+					left: -1px;
+					top: -1px;
+					margin: 1px;
+					z-index: z-index($elements, cover);
+				}
+			}
+		}
+
+		&.disabled {
+			&:after {
+				background-color: $form-color-input-disabled-bg;
+			}
+		}
+
+		&.long {
+			width: 100%;
+		}
+	}
+
+	textarea {
+		background: $form-color-input-bg;
+		border: 1px solid $form-color-input-border;
+		border-radius: $form-box-input-border-radius;
+		color: $form-color-input-text;
+		font-size: 1em;
+		height: $form-box-textarea-height;
+		max-width: 100%;
+		padding: 8px 10px;
+		transition: box-shadow 0.2s ease-in-out;
+		vertical-align: top;
+		width: $form-box-textarea-width;
+
+		&:focus {
+			@if $form-focus-box-shadow {
+				box-shadow: $form-focus-box-shadow;
+			}
+		}
+
+		&::placeholder {
+			color: $form-color-placeholder;
+		}
+	}
+	input[type="checkbox"] + label, input[type="radio"] + label {
+		margin-right: 10px;
+		user-select: none;
+		&:before {
+			background: url(../images/icons/checkbox_radio.png);
+			content: "";
+			display: inline-block;
+			height: 16px;
+			margin-bottom: 4px;
+			margin-right: 5px;
+			overflow: hidden;
+			vertical-align: middle;
+			width: 16px;
+			.lte-ie8 &{
+				display: none;
+			}
+		}
+	}
+	input[type="radio"] + label:before {
+		background-position: 16px 0;
+	}
+	input[type="checkbox"]:checked + label:before {
+		background-position: 0 16px;
+	}
+	input[type="radio"]:checked + label:before {
+			background-position: 16px 16px;
+	}
+	input[type="checkbox"], input[type="radio"] {
+			position:absolute;
+			/* Match the image dimensions */
+			width: 16px;
+			height: 16px;
+			/* Reset anything that could peek out or interfere with dimensions */
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			opacity: 0;
+		.lte-ie8 & {
+			position: relative;
+			opacity: 1;
+			margin-right: 5px;
+		}
+	}
+
+	&.inline-label {
+		label {
+			display: inline-block;
+			margin-right: 20px;
+			text-align: right;
+			width: 150px;
+		}
+	}
+
+	&.sticky-label {
+		position: relative;
+		label {
+			background: #fff;
+			color: $form-color-placeholder;
+			left: 5px;
+			margin-top: -6px;
+			padding: 0 5px;
+			pointer-events: none;
+			position: absolute;
+			top: 50%;
+			transition: all 0.2s ease-in;
+		}
+		textarea {
+			+ label {
+				top: 20px;
+			}
+		}
+
+		input, select, textarea {
+			&:disabled {
+				+ label {
+					background: $form-color-input-disabled-bg;
+
+					+ * {
+						background: red;
+					}
+				}
+			}
+			&.dirty {
+				+ label {
+					color: $form-color-input-text;
+					font-size: 12px;
+					top: 0;
+				}
+			}
+			&:focus {
+				+ label {
+					color: $form-color-label-active;
+				}
+			}
+			&:focus, &.dirty, &.error {
+				+ label {
+					font-size: 12px;
+					top: 0;
+				}
+			}
+		}
+	}
+
+	&.input-postfix {
+		input, select {
+			width: $form-box-input-width - 70px;
+		}
+
+		.postfix {
+			display: inline-block;
+			width: 70px;
+		}
+
+		span.postfix {
+			background: $form-color-postfix-bg;
+			border: {
+				bottom: 1px solid $form-color-input-border;
+				right: 1px solid $form-color-input-border;
+				top: 1px solid $form-color-input-border;
+			};
+			padding-left: 5px;
+		}
+	}
+
+	&.required{
+		label{
+			&:after{
+				color: $form-color-required-color;
+				content: "*";
+			}
+		}
+	}
+}
+
+.form-line {
+	input, select {
+		&.full-width {
+			width: 100%;
+		}
+	}
+}
+
+.form-info {
+	padding-top: 10px;
+}
+
+
+/*
+Form
+
+Styleguide 9
+*/
+
+/*
+height
+
+Markup:
+<div class="form-line">
+	<label for="{$modifiers}-sample-1" class="{$modifiers}">Example text:</label>
+	<input type="text" id="{$modifiers}-sample-1" name="{$modifiers}-sample-1" class="input {$modifiers}"  placeholder="placeholder" /> <button class="button {$modifiers}">button yeah</button>
+</div>
+<div class="form-line input-postfix">
+	<label for="sample10">Example text:</label>
+	<input type="text" id="sample10" name="sample10" class="input {$modifiers}"  placeholder="placeholder" /><span class="postfix">km/h</span>
+</div>
+<div class="form-line input-postfix {$modifiers}">
+	<label for="sample100">Example text:</label>
+	<input type="text" id="sample100" name="sample100" class="input {$modifiers}"  placeholder="placeholder" /><a href="#0" class="button postfix">send</a>
+</div>
+
+small - small
+big - big
+full-width - full width
+
+Styleguide 9.10
+*/
+
+/*
+Form elements
+
+```scss
+$form-color-input-border
+$form-color-input-bg
+$form-color-required-color
+$form-box-input-width
+$form-box-input-width-short
+$form-box-input-width-shorter
+$form-box-input-width-long
+$form-box-input-border-radius
+$form-box-textarea-width
+$form-box-textarea-height
+$form-box-textarea-height-short
+```
+
+Markup:
+<div class="form-line {$modifiers}">
+	<label for="{$modifiers}-sample-1">Example text:</label>
+	<input type="text" id="{$modifiers}-sample-1" name="{$modifiers}-sample-1" class="input"  placeholder="placeholder" /> <button class="button">button yeah</button>
+</div>
+<div class="form-line {$modifiers}">
+	<label for="{$modifiers}-sample-2">Example select:</label>
+	<select id="{$modifiers}-sample-2" name="{$modifiers}-sample-2">
+		<option>Choose an option</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+</div>
+<div class="form-line {$modifiers}">
+	<label for="{$modifiers}-sample-2">Example select:</label>
+	<div class="styled-select">
+		<select id="{$modifiers}-sample-3" name="s{$modifiers}-ample-3">
+			<option>Choose an option</option>
+			<option>Option 1.</option>
+			<option>Option 2.</option>
+			<option>Option 3.</option>
+			<option>Option 4.</option>
+			<option>Option 5.</option>
+		</select>
+	</div>
+</div>
+<div class="form-line">
+	<label>Example checkbox:</label>
+	<input type="checkbox" id="{$modifiers}-sample-4" name="{$modifiers}-sample-4" />
+	<label for="{$modifiers}-sample-4">Example checkbox</label>
+</div>
+<div class="form-line">
+	<label>Example radio:</label>
+	<input type="radio" id="{$modifiers}-sample-5" name="{$modifiers}-sample-5" checked="checked" />
+	<label for="{$modifiers}-sample-5">Yes</label>
+	<input type="radio" id="{$modifiers}-sample-6" name="{$modifiers}-sample-5" />
+	<label for="{$modifiers}-sample-6">No</label>
+</div>
+<div class="form-line {$modifiers}">
+	<label for="{$modifiers}-sample-7">Example textarea:</label>
+	<textarea id="{$modifiers}-sample-7" name="{$modifiers}-sample-7"></textarea>
+</div>
+<div class="form-line {$modifiers}">
+	<label></label>
+	<input type="submit" class="button" />
+</div>
+<div class="form-line input-postfix {$modifiers}">
+	<label for="sample10">Example text:</label>
+	<input type="text" id="sample10" name="sample10" class="input"  placeholder="placeholder" /><span class="postfix">km/h</span>
+</div>
+<div class="form-line input-postfix {$modifiers}">
+	<label for="sample100">Example text:</label>
+	<input type="text" id="sample100" name="sample100" class="input"  placeholder="placeholder" /><a href="#0" class="button postfix">send</a>
+</div>
+
+inline-label - inline label
+
+Styleguide 9.1
+*/
+
+
+/*
+sticky label
+
+###class:
+.sticky-label
+
+Markup:
+<div class="form-line sticky-label">
+	<input type="text" id="sticky-sample-1" name="sticky-sample-1" class="input" />
+	<label for="sticky-sample-1">Example text:</label>
+</div>
+<div class="form-line sticky-label">
+	<select id="sticky-sample-2" name="sticky-sample-2">
+		<option>&nbsp;</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+	<label for="sticky-sample-2">Example select:</label>
+</div>
+<div class="form-line sticky-label">
+	<textarea id="sticky-sample-3" name="sticky-sample-3"></textarea>
+	<label for="sticky-sample-3">Example textarea:</label>
+</div>
+
+Styleguide 9.2
+*/
+
+/*
+Required elements
+
+###class:
+.required
+
+Markup:
+<div class="form-line required">
+	<label for="required-sample-1">Example text:</label>
+	<input type="text" id="required-sample-1" name="required-sample-1" class="input" />
+</div>
+<div class="form-line required">
+	<label for="required-sample-2">Example select:</label>
+	<select id="required-sample-2" name="required-sample-2">
+		<option>Choose an option</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+</div>
+<div class="form-line required">
+	<label for="required-sample-3">Example select:</label>
+	<div class="styled-select">
+		<select id="required-sample-3" name="required-sample-3">
+			<option>Choose an option</option>
+			<option>Option 1.</option>
+			<option>Option 2.</option>
+			<option>Option 3.</option>
+			<option>Option 4.</option>
+			<option>Option 5.</option>
+		</select>
+	</div>
+</div>
+
+Styleguide 9.3
+*/
+

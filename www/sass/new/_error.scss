@@ -1,0 +1,309 @@
+$error-color: #f26263;
+$error-color-tooltip-bg: lighten($error-color, 30%) !default;
+$error-color-tooltip-border: $error-color !default;
+$error-box-tooltip-border: 1px solid $error-color-tooltip-border !default;
+$error-box-tooltip-width: 180px !default;
+$error-text-tooltip-align: center !default;
+$error-color-input-border: $error-color !default;
+$error-color-input-bg: lighten($error-color, 20%) !default;
+$error-box-tooltip-border-radius: 3px !default;
+$error-box-tooltip-padding: 5px 10px !default;
+$error-text-tooltip-size: 12px !default;
+
+$module-error-loops: (
+	right,
+	bottom,
+	left
+);
+
+@mixin error-arrow($direction) {
+	@if $direction == right {
+		bottom: auto;
+		left: 100%;
+		margin-bottom: 0;
+		margin-left: 10px;
+		max-width: inherit;
+		top: -30%;
+		white-space: nowrap;
+		width: auto;
+	}
+	@if $direction == bottom {
+		bottom: auto;
+		margin-bottom: 0;
+		margin-top: 8px;
+		top: 100%;
+	}
+	@if $direction == left {
+		bottom: auto;
+		left: auto;
+		margin-bottom:0;
+		margin-right: 10px;
+		max-width: inherit;
+		right: 100%;
+		top: -30%;
+		white-space: nowrap;
+		width: auto;
+	}
+	&:after, &:before {
+		@if $direction == right {
+			left: auto;
+			right: 100%;
+			top: 50%;
+		}
+		@if $direction == bottom {
+			bottom: 100%;
+			left: 20%;
+			top: auto;
+		}
+		@if $direction == left {
+			left: 100%;
+			top: 50%;
+		}
+	}
+	&:after{
+		@if $direction == right {
+			border-right-color: $error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: -5px;
+		}
+		@if $direction == bottom {
+			border-bottom-color: $error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: -5px;
+			left: 20%;
+		}
+		@if $direction == left {
+			border-left-color: $error-color-tooltip-bg;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-top: -5px;
+		}
+	}
+	&:before{
+		@if $direction == right {
+			border-right-color: $error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-right: 0;
+			margin-left: 0;
+			margin-top: -6px;
+		}
+		@if $direction == bottom {
+			border-bottom-color: $error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-left: -6px;
+		}
+		@if $direction == left {
+			border-left-color: $error-color-tooltip-border;
+			border-top-color: transparent;
+			margin-left: 0;
+			margin-top: -6px;
+		}
+	}
+}
+
+
+.errormsg {
+	border-radius: $error-box-tooltip-border-radius;
+	background: $error-color-tooltip-bg;
+	bottom: 100%;
+	border: $error-box-tooltip-border;
+	color: $error-color;
+	font-size: $error-text-tooltip-size;
+	left: 0;
+	margin-bottom: 10px;
+	padding: $error-box-tooltip-padding;
+	position: absolute;
+	text-align: $error-text-tooltip-align;
+	width: $error-box-tooltip-width;
+	z-index: 500;
+	&:before, &:after {
+		border: solid transparent;
+		content: "";
+		height: 0;
+		left: 20%;
+		pointer-events: none;
+		position: absolute;
+		top: 100%;
+		width: 0;
+	}
+	&:after {
+		border-top-color: $error-color-tooltip-bg;
+		border-width: 5px;
+		margin-left: -5px;
+	}
+	&:before {
+		border-top-color: $error-color-tooltip-border;
+		border-width: 6px;
+		margin-left: -6px;
+	}
+	.no-csstransitions & {
+		display: none;
+	}
+	.csstransitions & {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+input, textarea, select {
+	&.error {
+		background-color: $error-color-input-bg !important;
+		border-color: $error-color-input-border !important;
+		/*&:focus {
+			box-shadow: 0 0 5px rgba($error-color-input-border, 1) !important;
+		}*/
+		&::placeholder {
+			color: $error-color !important;
+		}
+	}
+}
+
+select, label, div, span {
+	&.error {
+		color: $error-color !important;
+	}
+}
+
+.error-holder {
+	position: relative;
+
+	color: $error-color !important;
+	a{
+		color: darken($error-color, 10%);
+	}
+	&:hover, &.show-error {
+		.errormsg {
+			.no-csstransitions & {
+				display: inline-block;
+			}
+			.csstransitions & {
+				opacity: 1;
+				transition: all .2s ease-in-out;
+				visibility: visible;
+			}
+		}
+	}
+}
+
+.error-holder {
+	.error &{
+		&:after {
+			display: none;
+		}
+	}
+}
+@each $module-error-loop-item in $module-error-loops {
+	[data-error-position=#{$module-error-loop-item}] {
+		.errormsg {
+			@include error-arrow(#{$module-error-loop-item});
+		}
+	}
+}
+
+
+@charset "UTF-8";
+/*
+Error
+
+Standard form with error. You can set the position with `data-error-position`.
+
+```scss
+$color-error
+$text-tooltip-align
+$text-tooltip-size
+$box-tooltip-border-radius
+$box-tooltip-padding
+$box-tooltip-width
+```
+
+Markup:
+<div class="form-line required label-top error">
+	 <label for="last_name">Név</label>
+		<div class="input-group">
+		 	<span class="error-holder error"><input type="text" name="last_name" id="last_name" placeholder="Vezetéknév" required class="error" data-error-position="{$modifiers}"><span class="errormsg">A vezetéknévnek minimum 3 karakter hosszúnak kell lennie!</span></span>
+	  	    <span class="error-holder error"><input type="text" name="first_name" id="first_name" class="right error" placeholder="Keresztnév" required><span class="errormsg" data-error-position="{$modifiers}">A keresztnévnek minimum 3 karakter hosszúnak kell lennie!</span></span>
+	 </div>
+</div>
+<div class="form-line label-top required error">
+	 <label for="last_name">Név</label>
+		<div class="input-group">
+		 	<span class="error-holder"><input type="text" name="last_name" id="last_name" placeholder="Vezetéknév" required data-error-position="{$modifiers}"></span>
+	  	    <span class="error-holder error"><input type="text" name="first_name" id="first_name" class="right error" placeholder="Keresztnév" required data-error-position="{$modifiers}"><span class="errormsg">A keresztnévnek minimum 3 karakter hosszúnak kell lennie!</span></span>
+	 </div>
+</div>
+<div class="form-line">
+	<label for="sample2" data-error-position="{$modifiers}" class="error">Example select: <span class="errormsg">Kötelező a kiválasztás!</span></label>
+	<select id="sample2" name="sample2" class="error">
+		<option>Choose an option</option>
+		<option>Option 1.</option>
+		<option>Option 2.</option>
+		<option>Option 3.</option>
+		<option>Option 4.</option>
+		<option>Option 5.</option>
+	</select>
+</div>
+<div class="form-line">
+	<label for="member_email" data-error-position="{$modifiers}" class="error">
+		Example text:
+		<span class="errormsg">A mező kitöltése kötelező!</span>
+	</label>
+	<input type="email" name="member_email" id="member_email" value="" class="error">
+</div>
+<div class="form-line">
+	<label for="member_email" data-error-position="{$modifiers}" class="error">
+		Example textarea:
+		<span class="errormsg">A mező kitöltése kötelező!</span>
+	</label>
+	<textarea name="description" id="description" class="error"></textarea>
+</div>
+
+top    - Top position (default)
+right  - Right position
+bottom - Bottom position
+left  - Left position
+
+Styleguide 9.11
+*/
+
+
+/*
+Input error without label
+
+You can set the position with `data-error-position`.
+
+Markup:
+<div class="form-line">
+	<span class="error-holder error" data-error-position="{$modifiers}">
+		<select id="sample2" name="sample2" class="error">
+			<option>Choose an option</option>
+			<option>Option 1.</option>
+			<option>Option 2.</option>
+			<option>Option 3.</option>
+			<option>Option 4.</option>
+			<option>Option 5.</option>
+		</select>
+		<span class="errormsg">Kötelező a kiválasztás!</span>
+	</span>
+</div>
+<div class="form-line">
+	<span class="error-holder error" data-error-position="{$modifiers}">
+	   <input type="email" name="newsletter_email" class="email error" placeholder="E-mail cím" autocomplete="off">
+	   <div class="errormsg">A mező kitöltése kötelező!</div>
+	</span>
+</div>
+<div class="form-line">
+	<span class="error-holder error" data-error-position="{$modifiers}">
+	   <textarea class="error"></textarea>
+	   <div class="errormsg">A mező kitöltése kötelező!</div>
+	</span>
+</div>
+
+top    - Top position (default)
+right  - Right position
+bottom - Bottom position
+left  - Left position
+
+Styleguide 9.12
+*/

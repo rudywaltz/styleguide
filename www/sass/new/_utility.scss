@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.clearfix:after {
+	clear: both;
+	content: '';
+	display: block;
+}
+
+.unstyled-list {
+	margin: 0;
+	padding: 0;
+	li {
+		list-style-type: none;
+	}
+}
+
+.inline-list {
+	@extend .unstyled-list;
+	li {
+		float: left;
+	}
+}
+
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+
+.fixed {
+	left: 0;
+	position: fixed;
+	top: 0;
+//	@todo performance hack http://benfrain.com/improving-css-performance-fixed-position-elements/
+	transform: translate3d(0, 0, 0);
+	width: 100%;
+	z-index: z-index($elements, fixed-position);
+}
+
+.no-wrap {
+	white-space: nowrap;
+}

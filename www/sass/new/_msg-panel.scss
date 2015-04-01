@@ -1,0 +1,404 @@
+@charset "UTF-8";
+
+// Variables
+$msg-panel-color-text: inherit !default;
+$msg-panel-color-title: $msg-panel-color-text !default;
+$msg-panel-color-bg: #F7F7F7 !default;
+$msg-panel-color-border: darken($msg-panel-color-bg, 10) !default;
+$msg-panel-box-padding: 15px !default;
+$msg-panel-box-border: 1px solid $msg-panel-color-border !default;
+$msg-panel-box-title-margin: 0 0 7px 0 !default;
+$msg-panel-box-close-icon-svg-height: 21px !default;
+$msg-panel-box-close-icon-svg-width: 20px !default;
+$msg-panel-text-close-icon-font-size: 20px !default;
+$msg-panel-text-icon-fontsize: 36px !default;
+$msg-panel-text-title-fontsize: 18px !default;
+$msg-panel-text-title-fontweight: bold !default;
+$msg-panel-use-svg: $use-svg !default;
+$msg-panel-use-iconfont: $use-iconfont !default;
+$msg-panel-iconfont-name: $iconfont-name !default;
+$msg-panel-iconfont-class-close: 'icon-remove' !default;
+$msg-panel-icon-svg-height: 36px !default;
+$msg-panel-icon-svg-width: 36px !default;
+$msg-panel-helper-color-mode: fill !default;
+$msg-panel-helper-svg-icon-class: '.msg-panel-icon' !default;
+
+
+// change the color mod, if it is svg we use fill, if iconfont we use color
+@if $msg-panel-use-iconfont {
+	$msg-panel-helper-color-mode: color;
+	$msg-panel-helper-svg-icon-class: '&:before';
+}
+
+
+$msg-panel-type: (
+	info: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #2980b9,
+		icon: 'icon-information',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	error: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #e74c3c,
+		icon: 'icon-alert',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	success: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #27ae60,
+		icon: 'icon-check-ok',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	warning: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #f39c12,
+		icon: 'icon-warning',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	)
+) !default;
+
+
+.msg-panel {
+	background: $msg-panel-color-bg;
+	border: $msg-panel-box-border;
+	color: $msg-panel-color-text;
+	padding: $msg-panel-box-padding;
+	position: relative;
+
+	&.icon {
+		#{$msg-panel-helper-svg-icon-class} {
+			float: left;
+			#{$msg-panel-helper-color-mode}: darken($msg-panel-color-bg, 50);
+			@if $msg-panel-use-svg {
+				height: $msg-panel-icon-svg-height;
+				width: $msg-panel-icon-svg-width;
+			}
+			@if $msg-panel-use-iconfont {
+				font-family: $msg-panel-iconfont-name;
+				font-size: $msg-panel-text-icon-fontsize;
+			}
+		}
+		.msg-panel-title, .msg-panel-content {
+			@if $msg-panel-use-iconfont {
+				padding-left: $msg-panel-text-icon-fontsize + $msg-panel-box-padding;
+			}
+
+			@if $msg-panel-use-svg {
+				padding-left: $msg-panel-icon-svg-width + $msg-panel-box-padding;
+			}
+		}
+	}
+
+	.msg-panel-title {
+		color: $msg-panel-color-title;
+		font-size: $msg-panel-text-title-fontsize;
+		font-weight: $msg-panel-text-title-fontweight;
+		margin: $msg-panel-box-title-margin;
+	}
+
+	.msg-panel-close {
+			#{$msg-panel-helper-color-mode}: rgba(darken($msg-panel-color-bg, 50), .7);
+			position: absolute;
+			right: 7px;
+			text-decoration: none;
+			top: 7px;
+		@if $msg-panel-use-svg {
+			svg {
+				height: $msg-panel-box-close-icon-svg-height;
+				width: $msg-panel-box-close-icon-svg-width;
+			}
+		}
+		@if $msg-panel-use-iconfont {
+			@extend .#{$msg-panel-iconfont-class-close};
+			color: rgba(darken($msg-panel-color-bg, 50), .7);
+			display: inline-block;
+			font-family: $msg-panel-iconfont-name;
+			font-size: $msg-panel-text-close-icon-font-size;
+		}
+		&:hover {
+			#{$msg-panel-helper-color-mode}: darken($msg-panel-color-bg, 50);
+		}
+	}
+
+	@each $msg-panel-name, $datas in $msg-panel-type {
+		$text-color: map-get($datas, text-color);
+		$title-color: map-get($datas, title-color);
+		$bg-color: map-get($datas, bg-color);
+		$icon: map-get($datas, icon);
+		$icon-color: map-get($datas, icon-color);
+		$icon-close-color: map-get($datas, icon-close-color);
+		$svg-height: map-get($datas, svg-height);
+		$svg-width: map-get($datas, svg-width);
+
+		&.#{$msg-panel-name} {
+			background: $bg-color;
+			border-color: darken($bg-color, 10%);
+			@if $text-color != $msg-panel-color-text {
+				color: $text-color;
+			}
+
+			@if $title-color != $msg-panel-color-title {
+				.msg-panel-title {
+					color: $title-color;
+				}
+			}
+
+			.msg-panel-close {
+				@if $icon-close-color == auto {
+					@if lightness($bg-color) > 50% {
+						#{$msg-panel-helper-color-mode}: rgba(darken($bg-color, 20), 0.8);
+					} @else {
+						#{$msg-panel-helper-color-mode}: rgba(lighten($bg-color, 20), 0.8);
+					}
+				} @else {
+					#{$msg-panel-helper-color-mode}: rgba($icon-close-color, 0.8);
+				}
+				&:hover {
+					@if $msg-panel-use-iconfont {
+						@if $icon-color == auto {
+							@if lightness($bg-color) > 50% {
+								#{$msg-panel-helper-color-mode}: darken($bg-color, 20);
+							} @else {
+								#{$msg-panel-helper-color-mode}: lighten($bg-color, 20);
+							}
+						} @else {
+							#{$msg-panel-helper-color-mode}: $icon-color;
+						}
+					}
+				}
+			}
+			&.icon {
+ 				#{$msg-panel-helper-svg-icon-class} {
+					@if $msg-panel-use-iconfont {
+						@extend .#{$icon};
+					}
+					@if $msg-panel-use-svg {
+						@if $svg-height != $msg-panel-icon-svg-height {
+							height: $svg-height;
+						}
+
+						@if $svg-width != $msg-panel-icon-svg-width {
+							width: $svg-width;
+						}
+					}
+					@if $icon-color == auto {
+						@if lightness($bg-color) > 50% {
+							#{$msg-panel-helper-color-mode}: darken($bg-color, 20);
+						} @else {
+							#{$msg-panel-helper-color-mode}: lighten($bg-color, 20);
+						}
+					} @else {
+						#{$msg-panel-helper-color-mode}: $icon-color;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+// ===============================================
+//
+// Styleguide template
+//
+//================================================
+
+
+$temp-msg-panel-type:"";
+$temp-msg-panel-type-generator:"";
+@each $msg-panel-name, $datas in $msg-panel-type {
+	$bg-color: map-get($datas, bg-color);
+	$icon: map-get($datas, icon);
+	$temp-msg-panel-type: $temp-msg-panel-type + "$" + $msg-panel-name +" - " + $bg-color + "
+" !global;
+	$temp-msg-panel-type-generator: $temp-msg-panel-type-generator + "." + $msg-panel-name +" - color: " + $bg-color + "
+" !global;
+}
+
+$temp-svg-code: "";
+$temp-svg-code-icon: "";
+@if $msg-panel-use-svg {
+	$temp-svg-code: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="56.693px" height="56.693px" viewBox="0 0 56.693 56.693" enable-background="new 0 0 56.693 56.693" xml:space="preserve">
+<g>
+<path d="M45.562,11.829C40.962,7.23,34.847,4.696,28.344,4.696c-6.504,0-12.619,2.533-17.219,7.132
+		c-9.496,9.498-9.497,24.948-0.002,34.441c4.599,4.601,10.716,7.134,17.222,7.135c0.001,0,0.001,0,0.001,0
+		c6.504,0,12.619-2.533,17.219-7.133C55.06,36.778,55.058,21.327,45.562,11.829z M44.166,44.873
+		c-4.227,4.226-9.844,6.554-15.819,6.554h-0.001c-5.978-0.001-11.598-2.328-15.824-6.556C3.799,36.148,3.8,21.953,12.524,13.228
+		c4.226-4.225,9.844-6.553,15.82-6.553c5.975,0,11.593,2.328,15.819,6.553C52.888,21.955,52.89,36.15,44.166,44.873z"/>
+<path d="M39.111,18.827c-0.386-0.386-1.013-0.386-1.399,0l-8.825,8.825l-8.825-8.825c-0.386-0.386-1.013-0.386-1.399,0
+		c-0.386,0.386-0.386,1.013,0,1.399l8.825,8.825l-8.825,8.825c-0.386,0.386-0.386,1.013,0,1.399c0.193,0.193,0.446,0.29,0.7,0.29
+		s0.506-0.097,0.7-0.29l8.825-8.825l8.825,8.825c0.193,0.193,0.446,0.29,0.7,0.29s0.506-0.097,0.7-0.29
+		c0.386-0.386,0.386-1.013,0-1.399l-8.825-8.825l8.825-8.825C39.498,19.839,39.498,19.213,39.111,18.827z"/>
+</g>
+</svg>' !global;
+	$temp-svg-code-icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="56.693px" height="56.693px" viewBox="0 0 56.693 56.693" enable-background="new 0 0 56.693 56.693" xml:space="preserve" class="msg-panel-icon">
+<g>
+<path d="M45.562,11.829C40.962,7.23,34.847,4.696,28.344,4.696c-6.504,0-12.619,2.533-17.219,7.132
+		c-9.496,9.498-9.497,24.948-0.002,34.441c4.599,4.601,10.716,7.134,17.222,7.135c0.001,0,0.001,0,0.001,0
+		c6.504,0,12.619-2.533,17.219-7.133C55.06,36.778,55.058,21.327,45.562,11.829z M44.166,44.873
+		c-4.227,4.226-9.844,6.554-15.819,6.554h-0.001c-5.978-0.001-11.598-2.328-15.824-6.556C3.799,36.148,3.8,21.953,12.524,13.228
+		c4.226-4.225,9.844-6.553,15.82-6.553c5.975,0,11.593,2.328,15.819,6.553C52.888,21.955,52.89,36.15,44.166,44.873z"/>
+<path d="M39.111,18.827c-0.386-0.386-1.013-0.386-1.399,0l-8.825,8.825l-8.825-8.825c-0.386-0.386-1.013-0.386-1.399,0
+		c-0.386,0.386-0.386,1.013,0,1.399l8.825,8.825l-8.825,8.825c-0.386,0.386-0.386,1.013,0,1.399c0.193,0.193,0.446,0.29,0.7,0.29
+		s0.506-0.097,0.7-0.29l8.825-8.825l8.825,8.825c0.193,0.193,0.446,0.29,0.7,0.29s0.506-0.097,0.7-0.29
+		c0.386-0.386,0.386-1.013,0-1.399l-8.825-8.825l8.825-8.825C39.498,19.839,39.498,19.213,39.111,18.827z"/>
+</g></svg>' !global;
+}
+
+
+/*
+Message Panel
+
+Styleguide 4
+*/
+
+
+/*
+Message Panel
+
+Különbőző típusú üzenetek megjelenítésére szolgál.
+
+###basic variable:
+
+```scss
+$msg-panel-color-text: #{$msg-panel-color-text};
+$msg-panel-color-title: #{$msg-panel-color-title};
+$msg-panel-color-bg: #{$msg-panel-color-bg};
+$msg-panel-color-border:#{$msg-panel-color-border};
+$msg-panel-box-padding: #{$msg-panel-box-padding};
+$msg-panel-box-border: #{$msg-panel-box-border};
+$msg-panel-box-title-margin: #{$msg-panel-box-title-margin};
+$msg-panel-box-close-icon-svg-height: #{$msg-panel-box-close-icon-svg-height};
+$msg-panel-box-close-icon-svg-width: #{$msg-panel-box-close-icon-svg-width};
+$msg-panel-text-close-icon-font-size: #{$msg-panel-text-close-icon-font-size};
+$msg-panel-text-icon-fontsize: #{$msg-panel-text-icon-fontsize};
+$msg-panel-text-title-fontsize: #{$msg-panel-text-title-fontsize};
+$msg-panel-text-title-fontweight: #{$msg-panel-text-title-fontweight};
+$msg-panel-use-svg: #{$msg-panel-use-svg};
+$msg-panel-use-iconfont: #{$msg-panel-use-iconfont};
+$msg-panel-iconfont-name:#{$msg-panel-iconfont-name};
+$msg-panel-iconfont-class-close: #{$msg-panel-iconfont-class-close};
+$msg-panel-icon-svg-height: #{$msg-panel-icon-svg-height};
+$msg-panel-icon-svg-width: #{$msg-panel-icon-svg-width};
+$msg-panel-helper-color-mode: #{$msg-panel-helper-color-mode};
+$msg-panel-helper-svg-icon-class: #{$msg-panel-helper-svg-icon-class};
+```
+
+###Default type generator
+
+```scss
+$msg-panel-type: (
+	info: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #2980b9,
+		icon: 'icon-information',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	error: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #e74c3c,
+		icon: 'icon-alert',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	success: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #27ae60,
+		icon: 'icon-check-ok',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	),
+	warning: (
+		text-color: $msg-panel-color-text,
+		title-color: $msg-panel-color-title,
+		bg-color: #f39c12,
+		icon: 'icon-warning',
+		icon-color: auto,
+		icon-close-color: auto,
+		svg-height: $msg-panel-icon-svg-height,
+		svg-width: $msg-panel-icon-svg-width
+	)
+);
+```
+
+
+###Class name:
+
+Markup:
+<div class="msg-panel {$modifiers}">
+	<div class="msg-panel-title">Lorem ipsum dolor</div>
+	<div class="msg-panel-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+</div>
+
+#{$temp-msg-panel-type-generator}
+Styleguide 4.1
+*/
+
+
+/*
+Message panel with icon
+
+Markup:
+<div class="msg-panel icon {$modifiers}">
+	#{$temp-svg-code-icon} <div class="msg-panel-title">Lorem ipsum dolor</div>
+	<div class="msg-panel-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+</div>
+
+.info - info with icon
+.warning - warning with icon
+.error - error with icon
+.success - sucess with icon
+
+Styleguide 4.2
+*/
+
+
+/*
+Message panel with icon, and close link
+
+Markup:
+<div class="msg-panel icon {$modifiers}">
+	#{$temp-svg-code-icon} <div class="msg-panel-title">Lorem ipsum dolor</div>
+	<div class="msg-panel-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, fuga, minus, nam qui magni minima delectus sed tempora ex sit dolore dignissimos aliquam doloribus commodi obcaecati perferendis perspiciatis. Asperiores, temporibus.</div>
+	<a href="#" class="msg-panel-close">#{$temp-svg-code}</a>
+</div>
+
+.info - info with icon + close
+.warning - warning with icon + close
+.error - error with icon + close
+.success - sucess with icon + close
+
+Styleguide 4.3
+*/
+

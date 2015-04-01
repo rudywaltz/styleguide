@@ -1,0 +1,527 @@
+@charset "UTF-8";
+
+/*
+Grid system based on Foundation 5
+*/
+
+//
+// @variables
+//
+
+$grid-row-width: 1200px !default;
+$grid-column-gutter: 30px !default;
+$grid-columns: 12 !default;
+$grid-last-child-float: right !default;
+
+// block grid
+$block-grid-default-spacing: $grid-column-gutter !default;
+$block-grid-elements: $grid-columns !default;
+$align-block-grid-to-grid: false !default;
+
+
+@if $align-block-grid-to-grid {
+	$block-grid-default-spacing: $grid-column-gutter;
+}
+
+@function grid-calc($colNumber, $totalColumns) {
+	@return percentage(($colNumber / $totalColumns));
+}
+
+@mixin grid-row($behavior: false) {
+
+	// Clearfix for all rows
+	@include clearfix();
+
+	// use @include grid-row(nest); to include a nested row
+	@if $behavior == nest {
+		margin: {
+			bottom: 0;
+			left:  -($grid-column-gutter/2);
+			right: -($grid-column-gutter/2);
+			top: 0;
+		};
+		max-width: none;
+		width: auto;
+	}
+
+		// use @include grid-row(collapse); to collapsed a container row margins
+	@else if $behavior == collapse {
+		margin: 0;
+		max-width: $grid-row-width;
+		width: 100%;
+	}
+
+		// use @include grid-row(nest-collapse); to collapse outer margins on a nested row
+	@else if $behavior == nest-collapse {
+		margin: 0;
+		max-width: none;
+		width: auto;
+	}
+
+		// use @include grid-row; to use a container row
+	@else {
+		margin: {
+			bottom: 0;
+			left: auto;
+			right: auto;
+			top: 0;
+		}
+		max-width: $grid-row-width;
+		width: 100%;
+	}
+}
+
+@mixin block-grid(
+$per-row:false,
+$spacing:$block-grid-default-spacing,
+$include-spacing:true,
+$base-style:true) {
+
+	@if $base-style {
+		@include clearfix;
+		display: block;
+		@if $align-block-grid-to-grid {
+			margin: 0;
+		} @else {
+			margin: 0 (-$spacing/2);
+		}
+		padding: 0;
+
+		&>li {
+			display: block;
+			float: left;
+			height: auto;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+		}
+	}
+
+	@if $per-row {
+		&>li {
+			list-style: none;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+			width: 100%/$per-row;
+
+			&:nth-of-type(1n) { clear: none; }
+			&:nth-of-type(#{$per-row}n+1) { clear: both; }
+			@if $align-block-grid-to-grid {
+				@include block-grid-aligned($per-row, $spacing);
+			}
+		}
+	}
+}
+
+// Creates a column, should be used inside of a media query to control layouts
+//
+// $columns - The number of columns this should be
+// $last-column - Is this the last column? Default: false.
+// $center - Center these columns? Default: false.
+// $offset - # of columns to offset. Default: false.
+// $push - # of columns to push. Default: false.
+// $pull - # of columns to pull. Default: false.
+// $collapse - Get rid of gutter padding on column? Default: false.
+// $float - Should this float? Default: true. Options: true, false, left, right.
+
+@mixin grid-column(
+$columns:false,
+$last-column:false,
+$center:false,
+$offset:false,
+$push:false,
+$pull:false,
+$collapse:false,
+$float:true,
+$position:false) {
+
+	// If collapsed, get rid of gutter padding
+	@if $collapse {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+		// Gutter padding whenever a column isn't set to collapse
+		// (use $collapse:null to do nothing)
+	@else if $collapse == false {
+		padding-left: ($grid-column-gutter / 2);
+		padding-right: ($grid-column-gutter / 2);
+	}
+
+	// If positioned for default .column, include relative position
+	// push and pull require position set
+	@if $position or $push or $pull {
+		position: relative;
+	}
+
+	// If a column number is given, calculate width
+	@if $columns {
+		width: grid-calc($columns, $grid-columns);
+
+		// If last column, float naturally instead of to the right
+		@if $last-column { float: right; }
+	}
+
+	// Source Ordering, adds left/right depending on which you use.
+	@if $push { left: grid-calc($push, $grid-columns); right: auto; }
+	@if $pull { right: grid-calc($pull, $grid-columns); left: auto; }
+
+	@if $float {
+		@if $float == left or $float == true { float: left; }
+		@else if $float == right { float:right; }
+		@else { float: none; }
+	}
+
+	// If centered, get rid of float and add appropriate margins
+	@if $center {
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	// If offset, calculate appropriate margins
+	@if $offset { margin-left: grid-calc($offset, $grid-columns) !important; }
+
+}
+
+
+
+// Create presentational classes for grid
+//
+// $size - Name of class to use, i.e. "large" will generate .large-1, .large-2, etc.
+
+@mixin block-grid-html-classes($size,$include-spacing) {
+	@for $i from 1 through $block-grid-elements {
+		.#{$size}-block-grid-#{($i)} {
+			@include block-grid($i,$block-grid-default-spacing,$include-spacing,false);
+		}
+	}
+}
+
+@mixin grid-html-classes($size) {
+
+	@for $i from 0 through $grid-columns - 1 {
+		.#{$size}-push-#{$i} {
+			@include grid-column($push:$i, $collapse:null, $float:false);
+		}
+		.#{$size}-pull-#{$i} {
+			@include grid-column($pull:$i, $collapse:null, $float:false);
+		}
+	}
+
+
+	@for $i from 1 through $grid-columns {
+		.#{$size}-#{$i} { @include grid-column($columns:$i,$collapse:null,$float:false); }
+	}
+
+	@for $i from 0 through $grid-columns - 1 {
+		.#{$size}-offset-#{$i} { @include grid-column($offset:$i, $collapse:null,$float:false); }
+	}
+
+	.#{$size}-reset-order {
+		float: left;
+		left: auto;
+		margin-left: 0;
+		margin-right: 0;
+		right: auto;
+	}
+
+	.column.#{$size}-centered,
+	.columns.#{$size}-centered { @include grid-column($center:true, $collapse:null, $float:false); }
+
+	.column.#{$size}-uncentered,
+	.columns.#{$size}-uncentered {
+		float: left;
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	// Fighting [class*="column"] + [class*="column"]:last-child
+	.column.#{$size}-centered:last-child,
+	.columns.#{$size}-centered:last-child{
+		float: none;
+	}
+
+	// Fighting .column.<previous-size>-centered:last-child
+	.column.#{$size}-uncentered:last-child,
+	.columns.#{$size}-uncentered:last-child {
+		float: left;
+	}
+
+	.column.#{$size}-uncentered.opposite,
+	.columns.#{$size}-uncentered.opposite {
+		float: right;
+	}
+
+	.row {
+		&.#{$size}-collapse {
+			> .column,
+			> .columns { @include grid-column($collapse:true, $float:false); }
+
+			.row {margin-left:0; margin-right:0;}
+		}
+		&.#{$size}-uncollapse {
+			> .column,
+			> .columns {
+				@include grid-column;
+			}
+		}
+	}
+}
+
+.row {
+	@include grid-row;
+
+	&.collapse {
+		> .column,
+		> .columns {
+			@include grid-column($collapse: true, $float: false);
+		}
+
+		.row {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	.row {
+		@include grid-row($behavior: nest);
+		&.collapse {
+			@include grid-row($behavior: nest-collapse);
+		}
+	}
+}
+
+.column,
+.columns { @include grid-column($columns:false, $position:true); }
+
+
+[class*="column"] + [class*="column"]:last-child {
+	float: $grid-last-child-float;
+}
+[class*="column"] + [class*="column"].end {
+	float: left;
+}
+
+[class*="block-grid-"] {
+	@include block-grid;
+}
+
+// extend grid system
+@each $screen-name, $size in $screen-sizes {
+	@media all and (min-width: $size) {
+		@include grid-html-classes($size: $screen-name);
+		@include block-grid-html-classes($size: $screen-name, $include-spacing: false);
+	}
+}
+
+
+//$form-spacing: 30px;
+//form .row { @include form-row-base; }
+//
+
+
+
+
+// ===============================================
+//
+// Styleguide template
+//
+//================================================
+
+$temp-screen-name:"";
+@each $screen-name, $size in $screen-sizes {
+$temp-screen-name: $temp-screen-name + "$" + $screen-name +" - " + $size + "
+" !global;
+}
+
+
+/*
+Grid
+
+Styleguide 1
+*/
+
+
+/*
+grid system
+
+###variable
+
+```scss
+$grid-row-width: #{$grid-row-width};
+$grid-column-gutter: #{$grid-column-gutter};
+$grid-columns: #{$grid-columns};
+$grid-last-child-float: #{$grid-last-child-float};
+```
+
+
+###Generated screen size
+
+```scss
+#{$temp-screen-name}
+```
+
+Markup:
+<div class="grid-demo">
+	<div class="row">
+		<div class="large-2 all-4 columns">large-2 all-6</div>
+		<div class="large-5 all-4 columns">large-5 all-6</div>
+		<div class="large-5 all-4 columns">large-5 all-6</div>
+	</div>
+</div>
+
+Styleguide 1.1
+*/
+
+/*
+Nested
+
+Markup:
+<div class="grid-demo">
+	<div class="row">
+		<div class="all-8 columns">8
+			<div class="row">
+				<div class="all-8 columns">8 Nested
+					<div class="row">
+						<div class="all-8 columns">8 Nested Again</div>
+						<div class="all-4 columns">4</div>
+					</div>
+				</div>
+				<div class="all-4 columns">4</div>
+			</div>
+		</div>
+		<div class="all-4 columns">4</div>
+	</div>
+</div>
+
+Styleguide 1.2
+*/
+
+
+/*
+Block Grid
+
+Styleguide 2
+*/
+
+/*
+Block grid system
+
+Dinamikusan töltődő listáknál érdemes használni. Nem kell minden sort külön row-ba rakni, vagy clearfixet utána.
+
+###variable
+
+```scss
+$block-grid-default-spacing: #{$block-grid-default-spacing};
+$block-grid-elements: #{$block-grid-elements};
+$align-block-grid-to-grid: #{$align-block-grid-to-grid};
+```
+
+
+###Generated screen size
+
+```scss
+#{$temp-screen-name}
+```
+
+Markup:
+<ul class="all-block-grid-2 large-block-grid-4">
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+</ul>
+
+Styleguide 2.1
+*/
+
+/*
+Különböző magasságok
+
+Nem esik szét ha különböző magasságuak az elemek.
+
+###variable
+
+```scss
+$block-grid-default-spacing: #{$block-grid-default-spacing};
+$block-grid-elements: #{$block-grid-elements};
+$align-block-grid-to-grid: #{$align-block-grid-to-grid};
+```
+
+
+###Generated screen size
+
+```scss
+#{$temp-screen-name}
+```
+
+Markup:
+<ul class="all-block-grid-2 large-block-grid-4">
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x250/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/100x100/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<ol>
+		  <li>Lorem ipsum.</li>
+		  <li>Assumenda, optio?</li>
+		  <li>Voluptate, eveniet.</li>
+		  <li>Fugit, doloribus!</li>
+		  <li>Provident, voluptates?</li>
+		  <li>Atque, maxime.</li>
+		  <li>Ipsum, eveniet.</li>
+		  <li>Tempora, accusantium.</li>
+		</ol>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+	<li>
+		<img src="http://dummyimage.com/200x200/000/fff" alt=""/>
+	</li>
+</ul>
+
+Styleguide 2.2
+*/

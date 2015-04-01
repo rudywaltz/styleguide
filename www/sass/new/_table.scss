@@ -1,0 +1,226 @@
+@charset "UTF-8";
+
+$table-color-td-odd-background:  #f5f5f5 !default;
+$table-text-size: 12px !default;
+$table-text-th-align: left !default;
+$table-text-th-weight: bold !default;
+$table-text-responsive-label-size: 11px !default;
+$table-text-responsive-label-weight: bold !default;
+$table-text-responsive-label-transform: uppercase !default;
+$table-box-th-border: none !default;
+$table-box-th-padding: 5px !default;
+$table-text-td-vertical-align: top !default;
+$table-box-td-border:  1px solid #ccc !default;
+$table-box-td-padding:  $table-box-th-padding !default;
+$table-box-margin: 0 0 16px 0 !default;
+$table-box-width: 100% !default;
+$table-box-responsive-tr-border: $table-box-td-border !default;
+$table-box-responsive-label-padding: 0 5px 0 0 !default;
+$table-box-responsive-label-width: 35% !default;
+$table-box-responsive-content-width: 100% - $table-box-responsive-label-width !default;
+$table-box-responsive-content-padding: 0 0 0 5px !default;
+
+
+$table-setting-screen-breakpoint: medium !default;
+$table-setting-responsive: true !default;
+
+
+
+table.table {
+	border-collapse: collapse;
+	font-size: $table-text-size;
+	margin: $table-box-margin;
+	position: relative;
+	width: $table-box-width;
+	empty-cells: show;
+
+	td {
+		border: $table-box-td-border;
+	}
+
+	thead {
+		th {
+			border: $table-box-th-border;
+			font-weight: $table-text-th-weight;
+			padding: $table-box-th-padding;
+			text-align: $table-text-th-align;
+		}
+	}
+
+	tbody {
+		tr {
+			td {
+				padding: $table-box-td-padding;
+				vertical-align: $table-text-td-vertical-align;
+
+				.table-label {
+					display: none;
+				}
+			}
+
+			&:nth-child(odd) {
+				background: $table-color-td-odd-background;
+			}
+		}
+	}
+
+
+	@if ($table-setting-responsive) {
+		&.responsive {
+			@include screen($table-setting-screen-breakpoint, down) {
+				display: block;
+
+				thead,
+				tbody,
+				th,
+				td,
+				tr {
+					border: none;
+					display: block;
+				}
+
+				thead {
+					tr {
+						left: -9999px;
+						position: absolute;
+						top: -9999px;
+					}
+				}
+
+				tbody {
+					tr {
+						border: 1px solid #ccc;
+						margin-bottom: -1px;
+						padding: 5px;
+
+						td {
+							&:after {
+								content: '';
+								clear: both;
+								display: block;
+							}
+
+							.table-label {
+								display: block !important;
+								float: left;
+								font-size: $table-text-responsive-label-size;
+								font-weight: $table-text-responsive-label-weight;
+								text-transform: $table-text-responsive-label-transform;
+								padding: $table-box-responsive-label-padding;
+								width: $table-box-responsive-label-width;
+							}
+
+							.table-content {
+								display: block !important;
+								float: left;
+								padding: $table-box-responsive-content-padding;
+								width: $table-box-responsive-content-width;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+Responsive table
+
+Styleguide 18
+*/
+
+/*
+Responsive table
+
+variable:
+```scss
+$table-color-td-odd-background: #{$table-color-td-odd-background};
+$table-text-size: 1#{$table-text-size};
+$table-text-th-align: #{$table-text-th-align};
+$table-text-th-weight: #{$table-text-th-weight};
+$table-text-responsive-label-size: #{$table-text-responsive-label-size};
+$table-text-responsive-label-weight: #{$table-text-responsive-label-weight};
+$table-text-responsive-label-transform: #{$table-text-responsive-label-transform};
+$table-box-th-border: #{$table-box-th-border};
+$table-box-th-padding: #{$table-box-th-padding};
+$table-text-td-vertical-align: #{$table-text-td-vertical-align};
+$table-box-td-border:  #{$table-box-td-border};
+$table-box-td-padding: #{$table-box-td-padding};
+$table-box-margin: #{$table-box-margin};
+$table-box-width: #{$table-box-width};
+$table-box-responsive-tr-border: #{$table-box-responsive-tr-border};
+$table-box-responsive-label-padding: #{$table-box-responsive-label-padding};
+$table-box-responsive-label-width: #{$table-box-responsive-label-width};
+$table-box-responsive-content-width: #{$table-box-responsive-content-width};
+$table-box-responsive-content-padding: #{$table-box-responsive-content-padding};
+
+$table-setting-screen-breakpoint: #{$table-setting-screen-breakpoint};
+$table-setting-responsive: #{$table-setting-responsive};
+```
+
+```js
+	$(document).ready(function() {
+		$('table.responsive').bfTable();
+	});
+```
+
+Use this class if you need responsive table.
+need some js as well (responsiveTable.js).
+
+Markup:
+<table class="table {$modifiers}">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Company</th>
+			<th>Price</th>
+			<th>Change</th>
+			<th>Change %</th>
+			<th>Open</th>
+			<th>High</th>
+			<th>Low</th>
+			<th>Volume</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>AAC</td>
+			<td>AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
+			<td>$1.38</td>
+			<td>-0.01</td>
+			<td>-0.36%</td>
+			<td>$1.39</td>
+			<td>$1.39</td>
+			<td>$1.38</td>
+			<td>9,395</td>
+		</tr>
+		<tr>
+			<td>AAD</td>
+			<td>ARDENT LEISURE GROUP</td>
+			<td>$1.15</td>
+			<td>+0.02</td>
+			<td>1.32%</td>
+			<td>$1.14</td>
+			<td>$1.15</td>
+			<td>$1.13</td>
+			<td>56,431</td>
+		</tr>
+		<tr>
+			<td>AAX</td>
+			<td>AUSENCO LIMITED</td>
+			<td>$4.00</td>
+			<td>-0.04</td>
+			<td>-0.99%</td>
+			<td>$4.01</td>
+			<td>$4.05</td>
+			<td>$4.00</td>
+			<td>90,641</td>
+		</tr>
+	</tbody>
+</table>
+
+.responsive - responsive version
+
+Styleguide 18.1
+*/

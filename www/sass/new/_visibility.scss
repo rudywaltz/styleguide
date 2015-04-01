@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.show, .visible {
+	display: inline !important;
+}
+
+.hide, .hidden {
+	display: none !important;
+}
+
+@each $screen, $size in $screen-sizes {
+	.show-#{$screen}, .show-#{$screen}-up, .visible-#{$screen}, .visible-#{$screen}-up {
+		@media only screen and (min-width: $size) {
+			display: inherit !important;
+		}
+	}
+	.show-#{$screen}-down, .visible-#{$screen}-down {
+		@media only screen and (max-width: ($size)-1) {
+			display: inherit !important;
+		}
+	}
+}
+
+@each $screen, $size in $screen-sizes {
+	.hide-#{$screen}, .hide-#{$screen}, .hidden-#{$screen}, .hidden-#{$screen}-up {
+		@media only screen and (min-width: $size) {
+			display: none !important;
+		}
+	}
+	.hide-#{$screen}-down, .hidden-#{$screen}-down {
+		@media only screen and (max-width: ($size)-1) {
+			display: none !important;
+		}
+	}
+}
+
+// ORIENTATION
+@media #{$portrait} {
+	.show-portrait,
+	.hide-landscape { display: inherit !important; }
+	.hide-portrait,
+	.show-landscape { display: none !important; }
+}
+@media #{$landscape} {
+	.show-landscape,
+	.hide-portrait { display: inherit !important; }
+	.hide-landscape,
+	.show-portrait { display: none !important; }
+}
+
+// TOUCH
+.show-touch { display: none !important; }
+.hide-touch { display: inherit !important; }
+.touch .show-touch { display: inherit !important; }
+.touch .hide-touch { display: none !important; }
+
+
+// PRINT
+@media print {
+	.show-print { display: inherit !important; }
+	.hide-print { display: none; }
+}

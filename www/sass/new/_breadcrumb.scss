@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+//$breadcrumb-use-iconfont: true;
+//$breadcrumb-use-svg: false;
+
+
+$breadcrumb-text-size: 11px !default;
+$breadcrumb-text-decoration: none !default;
+$breadcrumb-color-default: #444 !default;
+$breadcrumb-color-link: #0072ce !default;
+$breadcrumb-color-link-hover: darken($breadcrumb-color-link, 10%) !default;
+$breadcrumb-color-inactive: #999 !default;
+$breadcrumb-box-breakpoint: 700px !default;
+$breadcrumb-arrow-distance: 4px !default;
+$breadcrumb-box-distance: 8px !default;
+
+$breadcrumb-iconfont-name: $iconfont-name !default;
+$breadcrumb-iconfont-size: 9px !default;
+
+$breadcrumb-settings-oneline: true !default;
+$breadcrumb-use-iconfont: $use-iconfont !default;
+$breadcrumb-use-svg: $use-svg !default;
+$breadcrumb-arrow-svg: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5" height="8" viewBox="0 0 17 32">
+<path d="M0.76 1.87c-0.364-0.416-0.364-1.091 0-1.506s0.987-0.416 1.351 0l14.13 14.857c0.208 0.208 0.26 0.519 0.26 0.779s-0.104 0.571-0.26 0.779l-14.13 14.909c-0.364 0.416-0.935 0.416-1.351 0-0.364-0.416-0.364-1.091 0-1.506l13.455-14.182-13.455-14.13z" fill="#000000"></path>
+</svg>');
+
+.breadcrumb {
+	@extend .clearfix;
+	margin: 0;
+	padding: 0;
+
+	@if $breadcrumb-settings-oneline {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	li {
+		cursor: default;
+		color: $breadcrumb-color-default;
+		display: inline;
+		font-size: $breadcrumb-text-size;
+		margin-left: $breadcrumb-box-distance;
+		&:before {
+			@if $breadcrumb-use-iconfont {
+				@extend .icon-arrow-right;
+				font-family: $breadcrumb-iconfont-name;
+				font-size: $breadcrumb-iconfont-size;
+			}
+			@if $breadcrumb-use-svg {
+				content: $breadcrumb-arrow-svg;
+			}
+
+			display: inline-block;
+			margin-right: $breadcrumb-arrow-distance;
+		}
+
+		&:first-child {
+			margin-left: 0;
+			&:before {
+				display: none;
+			}
+		}
+
+		a {
+			color: $breadcrumb-color-link;
+			text-decoration: $breadcrumb-text-decoration;
+
+			&:hover {
+				color: $breadcrumb-color-link-hover;
+			}
+		}
+
+		&.inactive {
+			color: $breadcrumb-color-inactive;
+			a {
+				color: inherit;
+				cursor: default;
+			}
+		}
+
+		@media all and (max-width: $breadcrumb-box-breakpoint) {
+			display: none;
+
+			&:nth-last-child(2), .previous-page {
+				display: inline;
+
+				&:before {
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+}
+
+
+/*
+Breadcrumb
+
+Styleguide 15
+*/
+
+/*
+Breadcrumb
+
+Requirement modules: utility
+
+Used base variablesd:
+
+```scss
+$breadcrumb-text-size: 11px !default;
+$breadcrumb-color-link: #0072ce !default;
+$breadcrumb-color-link-hover: darken($breadcrumb-color-link, 10%) !default;
+$breadcrumb-color-inactive: #555 !default;
+$breadcrumb-box-breakpoint: 700px !default;
+ // true - kipontozza mobilon a túl hosszú sort
+$breadcrumb-settings-oneline: false !default;
+```
+
+Markup:
+<ul class="breadcrumb">
+	<li typeof="v:Breadcrumb">
+		<a href="#0" rel="v:url" property="v:title" >Home</a>
+	</li>
+	<li typeof="v:Breadcrumb">
+		<a href="#0" rel="v:url" property="v:title" >Lorem</a>
+	</li>
+	<li class="inactive" typeof="v:Breadcrumb" >
+		Inactive
+	</li>
+	<li class="inactive" typeof="v:Breadcrumb" >
+		<a href="#0" rel="v:url" property="v:title" >Inactive linkInactive</a>
+	</li>
+	<li typeof="v:Breadcrumb" >
+		<a href="#0" rel="v:url" property="v:title" >Lorem ipsum dolor sit amet mei</a>
+	</li>
+	<li typeof="v:Breadcrumb">
+		actual page with very long title lorem ipsum dolor sit amet long name need another
+	</li>
+</ul>
+
+FYI
+site wrapper divre:
+```html
+<div xmlns:v="http://rdf.data-vocabulary.org/#" vocab="http://schema.org/" typeof="WebPage">
+   ...
+</div>
+ ```
+
+Styleguide 15.1
+*/

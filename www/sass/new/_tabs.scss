@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+// Module variables:
+
+$tabs-box-border-width: 1px !default;
+$tabs-box-border-style: solid !default;
+$tabs-box-content-padding: 10px !default;
+$tabs-color-border: #ccc !default;
+$tabs-color-border-inactive: transparent !default;
+$tabs-color-label-bg-active: #fff !default;
+$tabs-color-label-bg: '' !default;
+$tabs-color-box-bg: #F7F7F7 !default;
+$tabs-box-tab-border-radius: 0px !default;
+$tabs-text-font-size: 13px !default;
+$tabs-text-title-font-size: 14px !default;
+$tabs-box-label-padding: 8px 10px !default;
+
+
+.tabs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	&:after {
+		clear: both;
+		content: '';
+		display: table;
+	}
+	> li {
+		display: inline;
+		font-size: 0;
+		> label {
+			@if $tabs-color-label-bg != '' {
+				background: $tabs-color-label-bg;
+			}
+			border: {
+				style: $tabs-box-border-style;
+				color: $tabs-color-border-inactive;
+				width: $tabs-box-border-width;
+			}
+			border-bottom: 0;
+			border-radius: $tabs-box-tab-border-radius $tabs-box-tab-border-radius 0 0;
+			cursor: pointer;
+			display: inline-block;
+			font-size: $tabs-text-title-font-size;
+			left: $tabs-box-border-width;
+			margin-left: -$tabs-box-border-width;
+			padding: $tabs-box-label-padding;
+			position: relative;
+			vertical-align: bottom;
+		}
+		> [type="radio"] {
+			bottom: 100%;
+			display: none;
+			left: 0;
+
+
+			&:checked {
+				+ label {
+					background: $tabs-color-label-bg-active;
+					border: {
+						color: $tabs-color-border;
+						style: $tabs-box-border-style;
+						width: $tabs-box-border-width;
+					}
+					border-bottom: 0;
+					cursor: default;
+					z-index: z-index($elements, cover);
+				}
+				~ .tabs-panel {
+					display: inline;
+				}
+			}
+		}
+		&.checked {
+			label {
+				background: $tabs-color-label-bg-active;
+				border: {
+					color: $tabs-color-border;
+					style: $tabs-box-border-style;
+					width: $tabs-box-border-width;
+				}
+				border-bottom: 0;
+				cursor: default;
+				z-index: z-index($elements, cover);
+			}
+			.tabs-panel {
+				display: inline;
+			}
+		}
+		.tabs-panel {
+			display: none;
+			overflow: hidden;
+			position: relative;
+			.tabs-content {
+				border: {
+					color: $tabs-color-border;
+					style: $tabs-box-border-style;
+					width: $tabs-box-border-width;
+				}
+				float: left;
+				font-size: $tabs-text-font-size;
+				margin-top: -$tabs-box-border-width;
+				padding: $tabs-box-content-padding;
+				width: 100%;
+			}
+		}
+	}
+}
+
+
+/*
+Tabs
+
+Styleguide 14
+*/
+
+/*
+Tabs
+
+```scss
+$tabs-box-border-width: #{$tabs-box-border-width};
+$tabs-box-border-style: #{$tabs-box-border-style};
+$tabs-box-content-padding: #{$tabs-box-content-padding};
+$tabs-color-border: #{$tabs-color-border};
+$tabs-color-border-inactive: #{$tabs-color-border-inactive};
+$tabs-color-label-bg-active: #{$tabs-color-label-bg-active};
+$tabs-color-label-bg: #{$tabs-color-label-bg};
+$tabs-color-box-bg: #{$tabs-color-box-bg};
+$tabs-box-tab-border-radius: #{$tabs-box-tab-border-radius};
+$tabs-text-font-size: #{$tabs-text-font-size};
+$tabs-text-title-font-size: #{$tabs-text-title-font-size};
+$tabs-box-label-padding: #{$tabs-box-label-padding};
+```
+
+Az lenti moduloknál ie8-hoz szükséges a hozzá való js fájl is. Accordionnál igaz ez akkor is ha animálni kell a lenyitást egyéb böngészőknél is.
+
+```js
+$('.tabs').bfTabs();
+$('.accordion').bfAccordion({option: value});
+// Default accordion js options:
+	animation: true,
+	duration: 400,
+	easing: 'swing'
+```
+
+Markup:
+<ul class="tabs">
+	<li>
+		<input type="radio" name="tabs-1" id="tabs-1-1" checked="checked" />
+		<label for="tabs-1-1"> Tab 1</label>
+		<div class="tabs-panel">
+			<div class="tabs-content">
+				lorem
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="tabs-1" id="tabs-1-2" />
+		<label for="tabs-1-2"> Tab 2</label>
+		<div class="tabs-panel">
+			<div class="tabs-content">
+				ipsum
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="tabs-1" id="tabs-1-3" />
+		<label for="tabs-1-3"> Tab 3</label>
+		<div class="tabs-panel">
+			<div class="tabs-content">
+				dolor
+			</div>
+		</div>
+	</li>
+</ul>
+
+Styleguide 14.1
+*/
+

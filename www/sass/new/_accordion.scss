@@ -1,0 +1,451 @@
+@charset "UTF-8";
+
+//$accordion-use-iconfont: true;
+$accordion-nested: true;
+
+$accordion-color-box-border: #ccc !default;
+$accordion-color-box-bg: #F7F7F7 !default;
+$accordion-head-box-border: 1px solid $accordion-color-box-border !default;
+$accordion-box-border-radius: 0 !default;
+$accordion-box-padding: 10px !default;
+$accordion-box-distance: 16px !default;
+$accordion-box-distance-nested: $accordion-box-distance / 2 !default;
+$accordion-arrow-up-iconfont: icon-arrow-up !default;
+$accordion-arrow-iconfont-size: 16px !default;
+$accordion-arrow-color: #000 !default;
+$accordion-arrow-up-svg-width: 16px !default;
+$accordion-arrow-up-svg-height: 16px !default;
+$accordion-arrow-transition: transform 0.3s ease;
+$accordion-title-ellipsis: true !default;
+$accordion-title-font-size: 16px !default;
+$accordion-head-box-padding: 8px 10px + $accordion-arrow-iconfont-size 8px 8px !default;
+$accordion-head-color-active: darken($accordion-color-box-bg, 20) !default;
+$accordion-content-text-size: 13px !default;
+
+
+$accordion-head-color-bg-nested: '' !default;
+$accordion-color-nested-box-border: '' !default;
+$accordion-box-border-radius-nested: '' !default;
+$accordion-head-box-border-nested:  '' !default;
+$accordion-title-font-size-nested:  '' !default;
+$accordion-head-box-padding-nested: '' !default;
+$accordion-arrow-up-iconfont-nested: '' !default;
+$accordion-arrow-color-nested: '' !default;
+$accordion-arrow-iconfont-size-nested: '' !default;
+$accordion-box-padding-nested: '' !default;
+$accordion-content-text-size-nested: '' !default;
+
+
+$accordion-use-iconfont: $use-iconfont !default;
+$accordion-use-svg: $use-svg !default;
+$accordion-nested: false !default;
+
+.accordion {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	> li {
+		margin-bottom: $accordion-box-distance;
+
+		> label {
+			@include clearfix();
+			background: $accordion-color-box-bg;
+
+			@if $accordion-box-border-radius > 0 {
+				border-radius: $accordion-box-border-radius;
+			}
+			border: $accordion-head-box-border;
+			cursor: pointer;
+			display: block;
+			font-size: $accordion-title-font-size;
+			padding: $accordion-head-box-padding;
+			position: relative;
+
+			.accordion-title {
+				float: left;
+				display: inline-block;
+				width: 100%;
+				@if $accordion-title-ellipsis {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+				}
+			}
+
+			.icon-accordion-arrow {
+				@if $accordion-use-iconfont {
+					@extend .#{$accordion-arrow-up-iconfont};
+					color: $accordion-arrow-color;
+					font-size: $accordion-arrow-iconfont-size;
+				}
+				@if $accordion-use-svg {
+					svg {
+						fill: $accordion-arrow-color;
+						height: $accordion-arrow-up-svg-height;
+						width: $accordion-arrow-up-svg-width;
+					}
+				}
+				display: inline-block;
+				float: right;
+				margin-right: -$accordion-arrow-iconfont-size;
+				transition: $accordion-arrow-transition;
+			}
+		}
+
+		&.checked {
+			> label {
+				background: $accordion-head-color-active;
+				border-bottom: 0;
+				@if $accordion-box-border-radius > 0 {
+					border-radius: $accordion-box-border-radius $accordion-box-border-radius 0 0;
+				}
+				.icon-accordion-arrow {
+					transform: rotate(-180deg);
+				}
+			}
+			> .accordion-panel {
+				display: block;
+			}
+		}
+
+		> [type="radio"], > [type="checkbox"] {
+			bottom: 100%;
+			display: none;
+			left: 0;
+			&:checked + label {
+				background: $accordion-head-color-active;
+				border-bottom: 0;
+				@if $accordion-box-border-radius > 0 {
+					border-radius: $accordion-box-border-radius $accordion-box-border-radius 0 0;
+				}
+				.icon-accordion-arrow {
+					transform: rotate(-180deg);
+				}
+				+ .accordion-panel {
+					display: block;
+				}
+			}
+		}
+
+		> .accordion-panel {
+			display: none;
+			overflow: hidden;
+			position: relative;
+
+			> .accordion-content {
+				border: $accordion-head-box-border;
+				@if $accordion-box-border-radius > 0 {
+					border-radius: 0 0 $accordion-box-border-radius $accordion-box-border-radius;
+				}
+				font-size: $accordion-content-text-size;
+				padding: $accordion-box-padding;
+				width: 100%;
+			}
+		}
+	}
+
+	@if $accordion-nested {
+		.accordion {
+			> li {
+				@if $accordion-box-distance-nested != '' {
+					margin-bottom: $accordion-box-distance-nested;
+				}
+				> label {
+					@if $accordion-head-color-bg-nested != '' {
+						background: $accordion-head-color-bg-nested;
+					}
+					@if $accordion-box-border-radius-nested != '' {
+						border-radius: $accordion-box-border-radius-nested;
+					}
+					@if $accordion-head-box-border-nested != '' {
+						border: $accordion-head-box-border-nested;
+					}
+					@if $accordion-title-font-size-nested != '' {
+						font-size: $accordion-title-font-size-nested;
+					}
+					@if $accordion-head-box-padding-nested != '' {
+						padding: $accordion-head-box-padding-nested;
+					}
+
+					.icon-accordion-arrow {
+						@if $accordion-use-iconfont {
+							@if $accordion-arrow-up-iconfont-nested != '' {
+								@extend .#{$accordion-arrow-up-iconfont-nested};
+							}
+							@if $accordion-arrow-color-nested != '' {
+								color: $accordion-arrow-color-nested;
+							}
+							@if $accordion-arrow-iconfont-size-nested != '' {
+								font-size: $accordion-arrow-iconfont-size-nested;
+							}
+						}
+
+						@if $accordion-arrow-iconfont-size-nested != '' {
+							margin-right: -$accordion-arrow-iconfont-size-nested;
+						}
+					}
+				}
+				> .accordion-panel {
+					> .accordion-content {
+						@if $accordion-content-text-size-nested != '' {
+							font-size: $accordion-content-text-size-nested;
+						}
+
+						@if $accordion-head-box-border-nested != '' {
+
+						}
+						@if $accordion-head-box-border-nested != '' {
+							border: $accordion-head-box-border-nested;
+						}
+						@if $accordion-box-border-radius-nested != '' {
+							border-radius: 0 0 $accordion-box-border-radius-nested $accordion-box-border-radius-nested;
+						}
+						@if $accordion-box-padding-nested != '' {
+							padding: $accordion-box-padding-nested;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+/*********************
+*
+* Template
+*
+*********************/
+
+$accordion-helper-arrow: '';
+@if $accordion-use-svg {
+	$accordion-helper-arrow: '<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+<path d="M30.13 23.74c0.416 0.364 1.091 0.364 1.507 0s0.416-0.987 0-1.351l-14.857-14.13c-0.208-0.208-0.519-0.26-0.779-0.26s-0.571 0.104-0.779 0.26l-14.909 14.13c-0.416 0.364-0.416 0.935 0 1.351 0.416 0.364 1.091 0.364 1.506 0l14.182-13.455 14.13 13.455z" fill="#000000"></path>
+</svg>' !global;
+}
+
+
+/*
+Accordion
+
+Styleguide 13
+*/
+
+
+/*
+# Default accordion
+default
+
+
+```scss
+$accordion-color-box-border: #{$accordion-color-box-border};
+$accordion-color-box-bg: #{$accordion-color-box-bg};
+$accordion-head-box-border: #{$accordion-head-box-border};
+$accordion-box-border-radius: #{$accordion-box-border-radius};
+$accordion-box-padding: #{$accordion-box-padding};
+$accordion-box-distance: #{$accordion-box-distance};
+$accordion-arrow-up-iconfont: #{$accordion-arrow-up-iconfont};
+$accordion-arrow-iconfont-size: #{$accordion-arrow-iconfont-size};
+$accordion-arrow-color: #{$accordion-arrow-color};
+$accordion-arrow-up-svg-width: #{$accordion-arrow-up-svg-width};
+$accordion-arrow-up-svg-height: #{$accordion-arrow-up-svg-height};
+$accordion-arrow-transition: #{$accordion-arrow-transition};
+$accordion-title-ellipsis: #{$accordion-title-ellipsis};
+$accordion-title-font-size: #{$accordion-title-font-size};
+$accordion-head-box-padding: #{$accordion-head-box-padding};
+$accordion-head-color-active: #{$accordion-head-color-active};
+$accordion-content-text-size: #{$accordion-content-text-size};
+
+
+$accordion-head-color-bg-nested: #{$accordion-head-color-bg-nested};
+$accordion-box-distance-nested: #{$accordion-box-distance-nested};
+$accordion-color-nested-box-border: #{$accordion-color-nested-box-border};
+$accordion-box-border-radius-nested: #{$accordion-box-border-radius-nested};
+$accordion-head-box-border-nested:  #{$accordion-head-box-border-nested};
+$accordion-title-font-size-nested:  #{$accordion-title-font-size-nested};
+$accordion-head-box-padding-nested: #{$accordion-head-box-padding-nested};
+$accordion-arrow-up-iconfont-nested: #{$accordion-arrow-up-iconfont-nested};
+$accordion-arrow-color-nested: #{$accordion-arrow-color-nested};
+$accordion-arrow-iconfont-size-nested: #{$accordion-arrow-iconfont-size-nested};
+$accordion-box-padding-nested: #{$accordion-box-padding-nested};
+$accordion-content-text-size-nested: #{$accordion-content-text-size-nested};
+
+
+$accordion-use-iconfont: #{$accordion-use-iconfont};
+$accordion-use-svg: #{$accordion-use-svg};
+$accordion-nested: #{$accordion-nested};
+```
+
+Markup:
+<ul class="accordion">
+	<li>
+		<input type="radio" name="accordion-10" id="accordion-10-1" />
+		<label for="accordion-10-1">Accordion one <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				content
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="accordion-10" id="accordion-10-2" />
+		<label for="accordion-10-2">
+			<span class="accordion-title">accordion Two lorem ipsum dolor sit amet mei ame mequm lorem amet meg very long title here lorem lorem ispumd modon gshse</span>
+			<span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span>
+		</label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				<p>lorem ipsum dolor sit amet</p>
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="accordion-10" id="accordion-10-3" />
+		<label for="accordion-10-3">Accordion Three <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				dolor
+			</div>
+		</div>
+	</li>
+</ul>
+
+Styleguide 13.1
+*/
+
+/*
+# Multi accordion
+
+Markup:
+<ul class="accordion">
+	<li>
+		<input type="checkbox" name="accordion-2-1" id="accordion-2-1" />
+		<label for="accordion-2-1">Accordion One <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				lorem
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="checkbox" name="accordion-2-2" id="accordion-2-2" />
+		<label for="accordion-2-2">Accordion Two <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				ipsum
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="checkbox" name="accordion-2-3" id="accordion-2-3" />
+		<label for="accordion-2-3">Accordion Three <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				dolor
+			</div>
+		</div>
+	</li>
+</ul>
+
+Styleguide 13.2
+*/
+
+/* Nested Accordion
+
+Markup:
+<ul class="accordion">
+	<li>
+		<input type="radio" name="accordion-1" id="accordion-1-1" checked="checked" />
+		<label for="accordion-1-1">Accordion One <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="accordion-1" id="accordion-1-2" />
+		<label for="accordion-1-2">
+		<span class="accordion-title">Accordion Two lorem ipsum dolor sit amet mei ame mequm lorem amet meg very long title here lorem lorem ispumd modon gshse</span>
+		<span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span>
+		</label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				ipsum
+			</div>
+		</div>
+	</li>
+	<li>
+		<input type="radio" name="accordion-1" id="accordion-1-3" />
+		<label for="accordion-1-3">Accordion Three <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+		<div class="accordion-panel">
+			<div class="accordion-content">
+				<ul class="accordion">
+					<li>
+						<input type="radio" name="accordion-100" id="accordion-100-1" />
+						<label for="accordion-100-1">nested Accordion One <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+						<div class="accordion-panel">
+							<div class="accordion-content">
+								<h2>Accordion 1</h2>
+								lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>
+							</div>
+						</div>
+					</li>
+					<li>
+						<input type="radio" name="accordion-100" id="accordion-100-2" />
+						<label for="accordion-100-2">Accordion Two <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+						<div class="accordion-panel">
+							<div class="accordion-content">
+								<ul class="accordion">
+									<li>
+										<input type="radio" name="accordion-1000" id="accordion-1000-1" />
+										<label for="accordion-1000-1">Nersted Accordion One <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+										<div class="accordion-panel">
+											<div class="accordion-content">
+												<h2>Accordion 1</h2>
+												lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>lorem<br>
+											</div>
+										</div>
+									</li>
+									<li>
+										<input type="radio" name="accordion-1000" id="accordion-1000-2" />
+										<label for="accordion-1000-2">nested Accordion Two <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+										<div class="accordion-panel">
+											<div class="accordion-content">
+												ipsum
+											</div>
+										</div>
+									</li>
+									<li>
+										<input type="radio" name="accordion-1000" id="accordion-1000-3" />
+										<label for="accordion-1000-3">nested Accordion Three <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+										<div class="accordion-panel">
+											<div class="accordion-content">
+												dolor
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<input type="radio" name="accordion-100" id="accordion-100-3" />
+						<label for="accordion-100-3">Accordion Three <span class="icon-accordion-arrow">#{$accordion-helper-arrow}</span></label>
+						<div class="accordion-panel">
+							<div class="accordion-content">
+								dolor
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</li>
+</ul>
+
+Styleguide 13.3
+*/

@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+$pagination-box-border-radius: 0 !default;
+$pagination-box-margin: 2px !default;
+$pagination-box-padding: 5px !default;
+
+$pagination-color-link: #1B526D !default;
+$pagination-color-link-background: transparent !default;
+$pagination-color-link-hover:  lighten($pagination-color-link, 15%) !default;
+$pagination-color-link-hover-background: transparent !default;
+$pagination-color-disabled: #999 !default;
+$pagination-color-disabled-background-hover: transparent !default;
+$pagination-color-current: $pagination-color-link-hover !default;
+$pagination-color-current-background: transparent !default;
+
+$pagination-text-size: 13px !default;
+$pagination-text-weight: normal !default;
+$pagination-text-weight-current: bold !default;
+
+.pagination {
+	font-size: $pagination-text-size;
+	list-style-type: none;
+	margin: 0 0 0 -$pagination-box-margin 0;
+	padding:  0;
+
+	li {
+		display: inline-block;
+		margin-left: $pagination-box-margin;
+
+		&.current {
+			a {
+				background: $pagination-color-current-background;
+				color: $pagination-color-current;
+				font-weight: $pagination-text-weight-current;
+			}
+		}
+
+		&.disabled {
+			a {
+				cursor: default;
+				color: $pagination-color-disabled;
+
+				&:hover {
+					background: $pagination-color-disabled-background-hover;
+				}
+			}
+		}
+	}
+
+	a {
+		background: $pagination-color-link-background;
+		@if $pagination-box-border-radius != 0 {
+			border-radius: $pagination-box-border-radius;
+		}
+		color: $pagination-color-link;
+		display: block;
+		line-height: 1;
+		padding: $pagination-box-padding;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.1s ease-in;
+
+		&:hover {
+			background: $pagination-color-link-hover-background;
+			color: $pagination-color-link-hover;
+			font-weight: $pagination-text-weight;
+		}
+
+	}
+}
+
+/*
+Pagination
+
+Styleguide 12
+*/
+
+/*
+# pagination
+
+###Variable:
+
+```scss
+$pagination-box-border-radius: #{$pagination-box-border-radius};
+$pagination-box-margin: #{$pagination-box-margin};
+$pagination-box-padding: #{$pagination-box-padding};
+
+$pagination-color-link: #{$pagination-color-link};
+$pagination-color-link-background: t#{$pagination-color-link-background};
+$pagination-color-link-hover: #{$pagination-color-link-hover};
+$pagination-color-link-hover-background: #{$pagination-color-link-hover-background};
+$pagination-color-disabled: #{$pagination-color-disabled};
+$pagination-color-disabled-background-hover: #{$pagination-color-disabled-background-hover};
+$pagination-color-current: #{$pagination-color-current};
+$pagination-color-current-background: #{$pagination-color-current-background};
+
+$pagination-text-size:#{$pagination-text-size};
+$pagination-text-weight: #{$pagination-text-weight};
+$pagination-text-weight-current: #{$pagination-text-weight-current};
+
+```
+
+Markup:
+<ul class="pagination {$modifiers}">
+	<li class="arrow disabled"><a href="">&laquo;</a></li>
+	<li class="arrow disabled"><a href="">&lsaquo;</a></li>
+	<li class="current"><a href="">1</a></li>
+	<li><a href="">2</a></li>
+	<li><a href="">3</a></li>
+	<li><a href="">4</a></li>
+	<li class="disabled"><a href="">&hellip;</a></li>
+	<li><a href="">12</a></li>
+	<li><a href="">13</a></li>
+	<li class="arrow"><a href="">&rsaquo;</a></li>
+	<li class="arrow"><a href="">&raquo;</a></li>
+</ul>
+
+.text-center - centered (need utility.scss)
+
+Styleguide 12.1
+*/
+

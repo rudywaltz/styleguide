@@ -1,0 +1,510 @@
+@charset "UTF-8";
+
+$mainmenu-color-bg: #ececec !default;
+$mainmenu-color-menu: #505050 !default;
+$mainmenu-color-menu-hover: #BE0000 !default;
+$mainmenu-color-menu-active: $mainmenu-color-menu-hover !default;
+$mainmenu-color-dropdown-bg: #333 !default;
+$mainmenu-color-dropdown-menu: #fff !default;
+$mainmenu-color-dropdown-menu-hover: $mainmenu-color-menu-hover !default;
+$mainmenu-color-dropdown-menu-active: $mainmenu-color-dropdown-menu-hover !default;
+$mainmenu-color-mobile-bg: #333 !default;
+$mainmenu-color-mobile-menu: #fff !default;
+$mainmenu-color-mobile-menu-hover: #fff !default;
+$mainmenu-color-mobile-menu-active: $mainmenu-color-mobile-menu-hover !default;
+$mainmenu-color-mobile-menu-button: #ccc !default;
+
+$mainmenu-box-border: none !default;
+$mainmenu-box-height: 40px !default;
+$mainmenu-box-menu-padding-li: 0 6px !default;
+$mainmenu-box-menu-padding-a: 0 10px !default;
+$mainmenu-box-dropdown-border: none !default;
+$mainmenu-box-dropdown-menu-padding-li: 5px 0 !default;
+$mainmenu-box-dropdown-menu-padding-a: 0 !default;
+$mainmenu-box-dropdown-padding: 7px 10px !default;
+$mainmenu-box-mobile-padding: 15px 18px !default;
+$mainmenu-box-mobile-width: 240px !default;
+$mainmenu-box-mobile-menu-height: 40px !default;
+$mainmenu-box-mobile-menu-padding-li: 0 !default;
+$mainmenu-box-mobile-menu-padding-a: 0 !default;
+$mainmenu-box-mobile-sub-menu-padding-li: 0 !default;
+$mainmenu-box-mobile-sub-menu-padding-a: 7px 0 !default;
+$mainmenu-box-mobile-sub-padding: 0 0 13px 0 !default;
+
+body {
+	position: relative;
+	right: 0;
+	transition: right .5s ease;
+
+	.mobilemenu-opened & {
+		right: $mainmenu-box-mobile-width;
+	}
+
+	.mobilemenu-opened.mobilemenu-left & {
+		right: -$mainmenu-box-mobile-width;
+	}
+}
+html {
+	&.mobilemenu-left {
+		//overflow-x: hidden;
+	}
+}
+
+.mainmenu, .mainmenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mainmenu {
+	background: $mainmenu-color-bg;
+	border: $mainmenu-box-border;
+	height: $mainmenu-box-height;
+
+	&:after {
+		clear: both;
+		content: '';
+		display: inline-block;
+		width: 100%;
+	}
+
+	> li {
+		display: inline-block;
+		padding: $mainmenu-box-menu-padding-li;
+		position: relative;
+
+		> a {
+			color: $mainmenu-color-menu;
+			display: inline-block;
+			font-size: 15px;
+			height: $mainmenu-box-height;
+			line-height: $mainmenu-box-height+1;
+			padding: $mainmenu-box-menu-padding-a;
+			text-decoration: none;
+			text-transform: uppercase;
+		}
+
+		> ul {
+			background: $mainmenu-color-dropdown-bg;
+			border: $mainmenu-box-dropdown-border;
+			display: none;
+			left: 0;
+			min-width: 100%;
+			padding: $mainmenu-box-dropdown-padding;
+			position: absolute;
+			z-index: z-index($elements, dropdown);
+
+			&.right {
+				left: auto;
+				right: 0;
+			}
+
+			> li {
+				padding: $mainmenu-box-dropdown-menu-padding-li;
+				white-space: nowrap;
+
+				> a {
+					display: inline-block;
+					padding: $mainmenu-box-dropdown-menu-padding-a;
+					color: $mainmenu-color-dropdown-menu;
+					text-decoration: none;
+
+					&:hover {
+						color: $mainmenu-color-dropdown-menu-hover;
+					}
+				}
+
+				&.active {
+					> a {
+						color: $mainmenu-color-dropdown-menu-active;
+					}
+				}
+			}
+		}
+
+		&:hover {
+			> a {
+				color: $mainmenu-color-menu-hover;
+			}
+
+			> ul {
+				display: block;
+			}
+		}
+
+		&.active {
+			> a {
+				color: $mainmenu-color-menu-active;
+			}
+		}
+	}
+
+	&.mainmenu-stretch {
+		text-align: justify;
+	}
+
+	&.mainmenu-table {
+		> li {
+			display: table-cell;
+			width: 1%;
+			text-align: center;
+
+			> a {
+				width: 100%;
+			}
+		}
+	}
+}
+
+@mixin mobilemenu-external-icon($close) {
+	&:before, &:after {
+		background: $mainmenu-color-mobile-menu;
+		content: '';
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		transition: all .3s ease;
+	}
+	&:before {
+		height: 16px;
+		width: 2px;
+		margin-right: 7px;
+	}
+	&:after {
+		width: 16px;
+		height: 2px;
+		top: 50%;
+		margin-top: -1px;
+	}
+
+	@if $close {
+		&:before, &:after {
+			background: $mainmenu-color-mobile-menu-hover;
+			transform: rotate(135deg);
+		}
+	}
+
+	&:hover {
+		&:before, &:after {
+			background: $mainmenu-color-mobile-menu-hover;
+		}
+	}
+}
+
+.mobilemenu, .mobilemenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mobilemenu {
+	background: $mainmenu-color-mobile-bg;
+	border: none;
+	display: block !important;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: $mainmenu-box-mobile-padding;
+	position: fixed;
+	right: -$mainmenu-box-mobile-width;
+	top: 0;
+	transition: all .5s ease;
+	width: $mainmenu-box-mobile-width;
+
+	&.mobilemenu-left {
+		right: auto;
+		left: -$mainmenu-box-mobile-width;
+	}
+
+	&.opened {
+		right: 0;
+
+		&.mobilemenu-left {
+			right: auto;
+			left: 0;
+		}
+	}
+
+	> li {
+		min-height: $mainmenu-box-mobile-menu-height;
+		padding: $mainmenu-box-mobile-menu-padding-li;
+		position: relative;
+
+		> a {
+			color: $mainmenu-color-mobile-menu;
+			display: inline-block;
+			font-size: 15px;
+			line-height: $mainmenu-box-mobile-menu-height+1;
+			padding: $mainmenu-box-mobile-menu-padding-a;
+			text-decoration: none;
+			text-transform: uppercase;
+
+			&:hover {
+				color: $mainmenu-color-mobile-menu-hover;
+			}
+		}
+
+		&.active {
+			> a {
+				color: $mainmenu-color-mobile-menu-hover;
+			}
+		}
+
+		.external-firepoint {
+			height: $mainmenu-box-mobile-menu-height;
+			padding: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 35px;
+
+			@include mobilemenu-external-icon(false);
+		}
+
+		&.opened, &.active {
+			.external-firepoint {
+				@include mobilemenu-external-icon(true);
+			}
+		}
+
+
+		> ul {
+			display: none;
+			padding: $mainmenu-box-mobile-sub-padding;
+
+			> li {
+				padding: $mainmenu-box-mobile-sub-menu-padding-li;
+
+				> a {
+					color: $mainmenu-color-mobile-menu;
+					display: inline-block;
+					padding: $mainmenu-box-mobile-sub-menu-padding-a;
+
+					&:hover {
+						color: $mainmenu-color-mobile-menu-hover;
+					}
+				}
+
+				&.active {
+					> a {
+						color: $mainmenu-color-mobile-menu-hover;
+					}
+				}
+			}
+		}
+
+		&.active {
+			> ul {
+				display: block;
+			}
+		}
+	}
+}
+
+%mobilemenu-line {
+	background: $mainmenu-color-mobile-menu-button;
+	border-radius: 2px;
+	display: block;
+	height: 3px;
+	width: 24px;
+}
+
+.mobilemenu-button {
+	height: 45px;
+	padding: 13px 0 0 10px;
+	text-decoration: none;
+	width: 45px;
+	transition: all .3s ease;
+	position: relative;
+	display: block;
+
+	span {
+		@extend %mobilemenu-line;
+		margin-top: 8px;
+		position: relative;
+		transition: opacity .2s ease;
+	}
+
+	&:before, &:after {
+		@extend %mobilemenu-line;
+		content: '';
+		position: absolute;
+		transition: transform .2s ease;
+		transform-origin: left;
+	}
+
+	&:before {
+		@extend %mobilemenu-line;
+		content: '';
+		top: 13px;
+	}
+
+	&:after {
+		top: 29px;
+	}
+
+	&.opened {
+		span {
+			transition: opacity .1s linear;
+			opacity: 0;
+		}
+
+		&:before, &:after {
+			transition: transform .2s ease;
+		}
+
+		&:before {
+			transform: translate(4px, 0px) rotate(45deg);
+		}
+
+		&:after {
+			transform: translate(4px, 1px) rotate(-45deg);
+		}
+	}
+}
+
+/*
+Main menu
+
+Styleguide 30
+*/
+
+/*
+# Simple top navigation
+
+Markup:
+<nav>
+	<ul class="mainmenu {$modifiers}">
+		<li>
+			<a href="#">Simple menu item</a>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul class="right">
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+.mainmenu-animate	- Animated dropdown (.mobilemenu-animate)
+.mainmenu-stretch	- Full stretched top navigation
+.mainmenu-table		- Tabled view top navigation
+
+Styleguide 30.1
+*/
+
+/*
+# Only mobile navigation
+
+.mobilemenu
+
+Markup:
+<a href="#" class="mobilemenu-button" rel="sample-navigation2"><span></span></a>
+<nav>
+	<ul class="mobilemenu mobilemenu-animate mobilemenu-left mobilemenu-external-firepoint" id="sample-navigation2">
+		<li>
+			<a href="#">Simple menu item</a>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul class="right">
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+Styleguide 30.2
+*/
+
+/*
+# Auto mobile navigation
+
+Requirement modules: screen, visibility
+
+.mainmenu-auto-mobile
+
+Markup:
+<a href="#" class="mobilemenu-button hidden-medium-up" rel="sample-navigation1"><span></span></a>
+<nav>
+	<ul class="mainmenu mainmenu-auto-mobile mainmenu-animate mobilemenu-animate mobilemenu-right hidden-medium-down" id="sample-navigation1">
+		<li>
+			<a href="#">Simple menu item</a>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul>
+				<li><a href="#">Dropdown item 1</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Dropdown menu item</a>
+			<ul class="right">
+				<li><a href="#">Dropdown item 1 lorem ipsum dolor</a></li>
+				<li><a href="#">Dropdown item 2</a></li>
+				<li><a href="#">Dropdown item 3</a></li>
+				<li><a href="#">Dropdown item 4</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+Styleguide 30.3
+*/

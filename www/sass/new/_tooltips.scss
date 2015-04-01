@@ -1,0 +1,198 @@
+@charset "UTF-8";
+
+$tooltip-color-text: #fff !default;
+$tooltip-color-bg: #000 !default;
+$tooltip-box-border-radius: 3px !default;
+$tooltip-box-padding: 5px 10px !default;
+$tootlip-box-longtext-width: 220px !default;
+$tooltip-text-size: 12px !default;
+$tooltip-arrow-position: 20% !default;
+$tooltip-transition: all .2s ease-in-out !default;
+
+[aria-label] {
+	cursor:  default;
+	display: inline-block;
+	position: relative;
+	text-decoration: underline;
+	&:before, &:after {
+		bottom: 125%;
+		opacity: 0;
+		transition: $tooltip-transition;
+		visibility: hidden;
+	}
+	&:after { // text of tooltip
+		background: $tooltip-color-bg;
+		border-radius: $tooltip-box-border-radius;
+		color: $tooltip-color-text;
+		content: attr(aria-label);
+		font-size: $tooltip-text-size;
+		padding: $tooltip-box-padding;
+		position: absolute;
+		white-space: nowrap;
+		z-index: z-index($elements, tooltip);
+		.csstransforms &{
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		.no-csstransforms &{
+			left:0;
+		}
+	}
+	&:before {
+		content: "";
+		height: 0;
+		position: absolute;
+		width: 0;
+		.csstransforms &{
+			left: $tooltip-arrow-position;
+		}
+		.no-csstransforms &{
+			left:15px;
+		}
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid $tooltip-color-bg;
+		margin-bottom: -4px;
+		margin-left: -5px;
+	}
+	&:hover:before, &:hover:after {
+		bottom: 115%;
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&[data-tooltip-position="bottom"] {
+		&:after, &:before {
+			bottom: auto;
+			top: 125%;
+		}
+		&:before {
+			border-bottom: 5px solid $tooltip-color-bg;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-top:0;
+			margin-bottom: auto;
+			margin-top: -4px;
+		}
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			top: 115%;
+		}
+	}
+
+	&[data-tooltip-position="right"], &[data-tooltip-position="left"] {
+		&:after, &:before {
+			border:  0;
+			left:  auto;
+			.csstransforms &{
+				top:45%;
+				transform: translateY(-45%);
+			}
+			.no-csstransforms &{
+				top:-15%;
+			}
+		}
+	}
+
+	&[data-tooltip-position="right"] {
+		&:after, &:before {
+			bottom: auto;
+			left: 115%;
+		}
+		&:before {
+			border-bottom: 5px solid transparent;
+			border-right: 5px solid $tooltip-color-bg;
+			border-top: 5px solid transparent;
+			margin-left: -4px;
+			.no-csstransforms &{
+				top: 5px;
+			}
+		}
+
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			left: 105%;
+		}
+	}
+
+	&[data-tooltip-position="left"] {
+		&:after, &:before {
+			bottom: auto;
+			right: 115%;
+		}
+		&:before {
+			border-bottom: 5px solid transparent;
+			border-left: 5px solid $tooltip-color-bg;
+			border-top: 5px solid transparent;
+			margin-right: -4px;
+			.no-csstransforms &{
+				top: 5px;
+			}
+		}
+		&:hover:before, &:hover:after {
+			bottom: auto;
+			right: 105%;
+		}
+	}
+}
+
+.tooltip {
+	&.long-text {
+		&:after {
+			width: $tootlip-box-longtext-width;
+			white-space: normal;
+		}
+	}
+}
+
+/*
+Tooltips
+
+Styleguide 5
+*/
+
+/*
+Tooltips
+
+###variable:
+
+```scss
+$tooltip-color-text: #{$tooltip-color-text};
+$tooltip-color-bg: #{$tooltip-color-bg};
+$tooltip-box-border-radius: #{$tooltip-box-border-radius};
+$tooltip-box-padding: #{$tooltip-box-padding};
+$tootlip-box-longtext-width: #{$tootlip-box-longtext-width};
+$tooltip-text-size: #{$tooltip-text-size};
+$tooltip-arrow-position: #{$tooltip-arrow-position};
+$tooltip-transition: #{$tooltip-transition};
+```
+
+###Class:
+
+Markup:
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip" data-tooltip-position="{$modifiers}" aria-label="loremipsum dolor sit amet">Tooltip position:<em>{$modifiers}</em></span> Aquila non captat muscas</p>
+
+top    - Highlights when hovering.
+bottom - Dims the button when disabled.
+left  - Indicates button is the primary action.
+right  - A smaller button
+
+Styleguide 5.1
+*/
+
+/*
+Tooltips
+
+###class:
+
+Markup:
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip {$modifiers}" aria-label="loremipsum dolor sit ametlo remipsum dolor sit ametlore mipsum dolor sit a metloremip sum dolor sit ametlor emipsum dolor sit ametlo remipsum dolor sit ametlor emipsum dolor sit amet oremipsum dolor sit amet">Tooltip with long text</span> Aquila non captat muscas</p>
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip {$modifiers}" data-tooltip-position="top" aria-label="loremipsum dolor sit ametlo remipsum dolor sit ametlore mipsum dolor sit a metloremip sum dolor sit ametlor emipsum dolor sit ametlo remipsum dolor sit ametlor emipsum dolor sit amet oremipsum dolor sit amet">Tooltip with long text</span> Aquila non captat muscas</p>
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip {$modifiers}" data-tooltip-position="right" aria-label="loremipsum dolor sit ametlo remipsum dolor sit ametlore mipsum dolor sit a metloremip sum dolor sit ametlor emipsum dolor sit ametlo remipsum dolor sit ametlor emipsum dolor sit amet oremipsum dolor sit amet">Tooltip with long text</span> Aquila non captat muscas</p>
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip {$modifiers}" data-tooltip-position="bottom" aria-label="loremipsum dolor sit ametlo remipsum dolor sit ametlore mipsum dolor sit a metloremip sum dolor sit ametlor emipsum dolor sit ametlo remipsum dolor sit ametlor emipsum dolor sit amet oremipsum dolor sit amet">Tooltip with long text</span> Aquila non captat muscas</p>
+<p>lorem ipsum dolor sit amet mei mecum <span class="tooltip {$modifiers}" data-tooltip-position="left" aria-label="loremipsum dolor sit ametlo remipsum dolor sit ametlore mipsum dolor sit a metloremip sum dolor sit ametlor emipsum dolor sit ametlo remipsum dolor sit ametlor emipsum dolor sit amet oremipsum dolor sit amet">Tooltip with long text</span> Aquila non captat muscas</p>
+
+long-text - long tooltip text
+
+Styleguide 5.2
+*/

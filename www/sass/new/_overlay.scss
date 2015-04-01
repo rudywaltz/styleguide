@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+$overlay-success: #695;
+$overlay-error: #FF4339;
+$overlay-warning: #F1D027;
+$overlay-text-color: #333;
+$overlay-color-background: #fff !default;
+$overlay-box-padding: 20px 20px 20px 20px !default;
+.message,
+.overlay-message,
+.message-confirm,
+.message-alert,
+.overlay-alert,
+.hint,
+.overlay-hint {
+	background: transparent;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: z-index($elements, overlay);
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: $overlay-color-background;
+		opacity: .7;
+		z-index: z-index($elements, overlay);
+	}
+
+	.panel-wrapper {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		z-index: z-index($elements, modal);
+	}
+
+	.panel {
+		padding: $overlay-box-padding;
+		background: #fff;
+		font-size: 14px;
+		box-shadow: 0 2px 12px 2px rgba(0,0,0,0.3);
+		max-width: 450px;
+
+	  .overlay-button-wrapper {
+		margin-top: 20px;
+		text-align: center;
+
+		.overlay-button {
+		  @extend .button !optional;
+		  cursor: pointer;
+		  margin-left: 20px;
+		  width: 80px;
+		  text-align: center;
+
+		  &:first-child {
+			margin-left: 0;
+		  }
+		}
+	  }
+	}
+
+}
+
+
+.message,
+.overlay-message {
+	.panel {
+		border-top: 5px solid $overlay-success;
+		color: $overlay-text-color;
+	}
+}
+
+.message-confirm {
+  .panel {
+	border-top: 5px solid $overlay-warning;
+	color: $overlay-text-color;
+  }
+}
+
+.message-alert,
+.overlay-alert {
+	.panel {
+		border-top: 5px solid $overlay-error;
+		color: $overlay-text-color;
+	}
+}
+
+.hint,
+.overlay-hint {
+	.panel {
+		border-top: 5px solid $overlay-warning;
+		color: $overlay-text-color;
+	}
+}
+
+/*
+Overlay
+
+Styleguide 16
+*/
+
+/*
+Panel
+
+Markup:
+<div id="panel" style="display:none;">
+	<div class="overlay"></div>
+	<div class="panel-wrapper" style="left: 50%; top: 50%;">
+		<div class="panel text-center" style="margin-top: -103.5px; margin-left: -149.5px;">
+		<h3>Msg panel</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodt re magna aliqua</p>
+		<a href="#0" class="button text-center full-width" onclick="$('#panel').removeClass().hide(); return false;">hide</a></div>
+	</div>
+</div>
+<a href="#0" class="button" onclick="$('#panel').addClass('message').show(); return false;">show message</a>
+<a href="#0" class="button" onclick="$('#panel').addClass('alert message-alert').show(); return false;">show alert</a>
+<a href="#0" class="button" onclick="$('#panel').addClass('hint').show(); return false;">show hint</a>
+
+Styleguide 16.1
+*/

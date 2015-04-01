@@ -1,0 +1,369 @@
+@charset "UTF-8";
+
+// Module variables:
+
+$button-text-minfontsize: 11px !default;
+$button-box-icon-margin: 0.3em !default;
+$button-use-svg: $use-svg !default;
+$button-use-iconfont: $use-iconfont !default;
+
+$button-size: (
+	'default': (
+		size: 36px
+	),
+	'small': (
+		size: 24px
+	),
+	'big': (
+		size: 40px
+	),
+	'button-size-full-settings': (
+		size: 20px,
+		padding: 0 20px,
+		text-icon-font-size: 20px
+	)
+) !default;
+
+
+$button-style: (
+	'default' : (
+		color-bg: #ececec,
+		color-text: #505050,
+	),
+	'button-alert' : (
+		color-bg: #e74c3c,
+		color-text: #fff,
+	),
+	'button-success' : (
+		color-bg: #27ae60,
+		color-text: #fff,
+	),
+	'button-highlight' : (
+		color-bg: #2980b9,
+		color-text: #fff,
+	),
+	'button-style-full-settings' : (
+		color-bg: #000,
+		color-text: #fff,
+		box-border: 5px solid red,
+		box-border-radius: 10px
+	)
+) !default;
+
+
+@each $class, $datas in $button-size {
+	$button-text-font-size: '';
+	$button-box-padding: '';
+	$button-text-icon-font-size: 1.5em;
+
+	$size: map-get($datas, size);
+
+	@if map-has-key($datas, font-size) {
+		$button-text-font-size: map-get($datas, font-size);
+	} @else {
+		@if ($size / 2.5) < $button-text-minfontsize {
+			$button-text-font-size: $button-text-minfontsize;
+		} @else {
+			$button-text-font-size: round($size / 2.5);
+		}
+	}
+
+	@if map-has-key($datas, text-icon-font-size) {
+		$button-text-icon-font-size: map-get($datas, text-icon-font-size);
+	}
+
+	@if map-has-key($datas, padding) {
+		$button-box-padding: map-get($datas, padding);
+	} @else {
+		$button-box-padding: 0 round($size / 2.5);
+	}
+
+	@if $class == default {
+		.button {
+			font-size: $button-text-font-size;
+			line-height: $size;
+			padding: $button-box-padding;
+
+			[class^="icon-"], [class*=" icon-"] {
+				@if $button-use-iconfont {
+					font-size: $button-text-icon-font-size;
+				}
+			}
+			@if $button-use-svg {
+				svg[class^="icon-"], svg[class*=" icon-"] {
+					font-size: 1em;
+					height: $button-text-icon-font-size;
+					width: $button-text-icon-font-size;
+				}
+			}
+		}
+	} @else {
+		.button.#{$class} {
+			font-size: $button-text-font-size;
+			line-height: $size;
+			padding: $button-box-padding;
+			[class^="icon-"], [class*=" icon-"] {
+				@if $button-use-iconfont {
+					font-size: $button-text-icon-font-size;
+				}
+			}
+			@if $button-use-svg {
+				svg[class^="icon-"], svg[class*=" icon-"] {
+					font-size: 1em;
+					height: $button-text-icon-font-size;
+					width: $button-text-icon-font-size;
+				}
+			}
+		}
+	}
+}
+
+.button {
+	@each $class, $datas in $button-style {
+		$button-box-border: "";
+		$button-box-border-radius: "";
+		$button-color-bg: map-get($datas, color-bg);
+		$button-color-text: map-get($datas, color-text);
+
+		@if map-has-key($datas, box-border) {
+			$button-box-border: map-get($datas, box-border);
+		}
+		@if map-has-key($datas, box-border-radius) {
+			$button-box-border-radius: map-get($datas, box-border-radius);
+		}
+
+
+		@if $class == default {
+			background: $button-color-bg;
+			@if  map-has-key($datas, box-border) {
+				border: $button-box-border;
+			}
+			@if  map-has-key($datas, box-border-radius) {
+				border-radius: $button-box-border-radius;
+			}
+			color: $button-color-text;
+			border: 1px solid $button-color-bg;
+			display: inline-block;
+			outline: none;
+			text-decoration: none;
+
+			&:hover {
+				@if lightness($button-color-bg) > 50% {
+					background: darken($button-color-bg, 7);
+				} @else {
+					background: lighten($button-color-bg, 7);
+				}
+			}
+
+			&:disabled, &.disabled, &[disabled] {
+				background-color: lighten($button-color-bg, 2%);
+				background-image: none;
+				cursor: default;
+				opacity: .6;
+				pointer-events: none;
+			}
+
+		} @else {
+			&.#{$class} {
+				background: $button-color-bg;
+				color: $button-color-text;
+				@if  map-has-key($datas, box-border) {
+					border: $button-box-border;
+				}
+				@if  map-has-key($datas, box-border-radius) {
+					border-radius: $button-box-border-radius;
+				}
+
+				&:disabled, &.disabled, &[disabled] {
+					background-color: lighten($button-color-bg, 2%);
+					background-image: none;
+					cursor: default;
+					opacity: .6;
+					pointer-events: none;
+				}
+
+				&:hover {
+					@if lightness($button-color-bg) > 50% {
+						background: darken($button-color-bg, 7);
+					} @else {
+						background: lighten($button-color-bg, 7);
+					}
+				}
+			}
+		}
+	}
+
+	&.fileinput {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		input {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			margin: 0;
+			opacity: 0;
+			-ms-filter: 'alpha(opacity=0)';
+			font-size: 18px;
+			direction: ltr;
+			cursor: pointer;
+		}
+		&:disabled, &.disabled, &[disabled] {
+			input {
+				pointer-events: none;
+				cursor: default;
+			}
+		}
+	}
+	&.full-width {
+		width: 100%;
+	}
+
+	&.button-icon{
+		[class^="icon-"], [class*=" icon-"] {
+			margin: 0 !important;
+		}
+	}
+
+	[class^="icon-"], [class*=" icon-"] {
+		display: inline-block;
+		line-height: inherit;
+		margin-right: $button-box-icon-margin;
+		vertical-align: -14%;
+		&.right {
+			margin-right: 0;
+			margin-left: $button-box-icon-margin;
+		}
+	}
+}
+
+
+$temp-svg-code-icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="56.693px" height="56.693px" viewBox="0 0 56.693 56.693" enable-background="new 0 0 56.693 56.693" xml:space="preserve" class="icon-alert">
+<g>
+<path d="M45.562,11.829C40.962,7.23,34.847,4.696,28.344,4.696c-6.504,0-12.619,2.533-17.219,7.132
+		c-9.496,9.498-9.497,24.948-0.002,34.441c4.599,4.601,10.716,7.134,17.222,7.135c0.001,0,0.001,0,0.001,0
+		c6.504,0,12.619-2.533,17.219-7.133C55.06,36.778,55.058,21.327,45.562,11.829z M44.166,44.873
+		c-4.227,4.226-9.844,6.554-15.819,6.554h-0.001c-5.978-0.001-11.598-2.328-15.824-6.556C3.799,36.148,3.8,21.953,12.524,13.228
+		c4.226-4.225,9.844-6.553,15.82-6.553c5.975,0,11.593,2.328,15.819,6.553C52.888,21.955,52.89,36.15,44.166,44.873z"/>
+<path d="M39.111,18.827c-0.386-0.386-1.013-0.386-1.399,0l-8.825,8.825l-8.825-8.825c-0.386-0.386-1.013-0.386-1.399,0
+		c-0.386,0.386-0.386,1.013,0,1.399l8.825,8.825l-8.825,8.825c-0.386,0.386-0.386,1.013,0,1.399c0.193,0.193,0.446,0.29,0.7,0.29
+		s0.506-0.097,0.7-0.29l8.825-8.825l8.825,8.825c0.193,0.193,0.446,0.29,0.7,0.29s0.506-0.097,0.7-0.29
+		c0.386-0.386,0.386-1.013,0-1.399l-8.825-8.825l8.825-8.825C39.498,19.839,39.498,19.213,39.111,18.827z"/>
+</g></svg>' !global;
+
+$temp-svg-code-icon-2: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="56.693px" height="56.693px" viewBox="0 0 56.693 56.693" enable-background="new 0 0 56.693 56.693" xml:space="preserve" class="icon-alert right">
+<g>
+<path d="M45.562,11.829C40.962,7.23,34.847,4.696,28.344,4.696c-6.504,0-12.619,2.533-17.219,7.132
+		c-9.496,9.498-9.497,24.948-0.002,34.441c4.599,4.601,10.716,7.134,17.222,7.135c0.001,0,0.001,0,0.001,0
+		c6.504,0,12.619-2.533,17.219-7.133C55.06,36.778,55.058,21.327,45.562,11.829z M44.166,44.873
+		c-4.227,4.226-9.844,6.554-15.819,6.554h-0.001c-5.978-0.001-11.598-2.328-15.824-6.556C3.799,36.148,3.8,21.953,12.524,13.228
+		c4.226-4.225,9.844-6.553,15.82-6.553c5.975,0,11.593,2.328,15.819,6.553C52.888,21.955,52.89,36.15,44.166,44.873z"/>
+<path d="M39.111,18.827c-0.386-0.386-1.013-0.386-1.399,0l-8.825,8.825l-8.825-8.825c-0.386-0.386-1.013-0.386-1.399,0
+		c-0.386,0.386-0.386,1.013,0,1.399l8.825,8.825l-8.825,8.825c-0.386,0.386-0.386,1.013,0,1.399c0.193,0.193,0.446,0.29,0.7,0.29
+		s0.506-0.097,0.7-0.29l8.825-8.825l8.825,8.825c0.193,0.193,0.446,0.29,0.7,0.29s0.506-0.097,0.7-0.29
+		c0.386-0.386,0.386-1.013,0-1.399l-8.825-8.825l8.825-8.825C39.498,19.839,39.498,19.213,39.111,18.827z"/>
+</g></svg>' !global;
+
+
+/*
+Button
+
+Styleguide 10
+
+*/
+
+$temp-button-class: '';
+$temp-button-template: '';
+@each $class, $datas in $button-size {
+	@if $class != 'default' {
+		$temp-button-class: $temp-button-class + '.' + $class + ' - ' + $class + '
+'!global;
+
+		$temp-button-template: $temp-button-template + '<button class="button ' + $class + '"><span class="{$modifiers}"></span>' + $class + ' Button</button> <br><br>
+<button class="button ' + $class + '">' + $class + ' Button<span class="{$modifiers} right"></span></button><br><br>' +
+	'<a class="button ' + $class + '"><span class="{$modifiers}"></span>' + $class + ' Button</a> <br><br>
+	<a class="button ' + $class + '">' + $class + ' Button<span class="{$modifiers} right"></span></a><br><br>' !global;
+	}
+}
+
+$temp-button-style: '';
+@each $class, $datas in $button-style {
+	@if $class != 'default' {
+		$temp-button-style: $temp-button-style + '.' + $class + ' - ' + $class + '
+'!global;
+	}
+}
+
+
+/*
+Button size
+
+###variable:
+```scss
+$button-text-minfontsize: #{$button-text-minfontsize};
+$button-box-icon-margin: #{$button-box-icon-margin};
+$button-use-svg: #{$button-use-svg};
+$button-use-iconfont: #{$button-use-iconfont};
+```
+
+Markup:
+<button class="button {$modifiers}">Button (button.button)</button><br><br>
+<a href="#" class="button {$modifiers}">Button (a.button)</a><br><br>
+<input type="button" value="input button" class="button {$modifiers}" /><br><br>
+<input type="submit" value="input submit" class="button {$modifiers}"/><br><br>
+<span class="button {$modifiers} fileinput"><span>file input</span><input type="file" name="name" id="id-fileinput" /></span>
+<br>
+<br>
+<div><a href="#" class="button full-width {$modifiers}">Button (a.full-width)</a></div>
+
+###class name:
+
+#{$temp-button-class}
+Styleguide 10.1
+*/
+
+
+/*
+# Button (color) styles
+
+Color background button
+
+```scss
+#{$temp-button-style}
+```
+
+Markup:
+<button class="button {$modifiers}">Button (button.{$modifiers})</button><br><br>
+<a href="#0" class="button {$modifiers}">Button (button.{$modifiers})</a>
+
+###class name:
+
+#{$temp-button-style}
+Styleguide 10.2
+*/
+
+
+/*
+# Button with iconfont
+
+Markup:
+#{$temp-button-template}
+
+#{$temp-icon-name}
+Styleguide 10.3
+*/
+
+
+/*
+# button with svg icons
+
+Markup:
+<button class="button {$modifiers}">#{$temp-svg-code-icon}Button</button><br><br>
+<button class="button {$modifiers}">Button#{$temp-svg-code-icon-2}</button>
+
+#{$temp-button-class}
+Styleguide 10.4
+*/

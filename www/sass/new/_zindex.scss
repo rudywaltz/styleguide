@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+$elements: cover, tooltip, error, dropdown, fixed-position, overlay, modal !default;
+
+@function z-index($list, $element) {
+
+	$z-index: index($list, $element);
+
+	@if $z-index {
+		@return $z-index;
+	}
+
+	@warn 'There is no item "#{$element}" in this list; choose one of: #{$list}';
+	@return null;
+}
+
+
+/*
+Z-index
+
+Styleguide 3
+*/
+
+/*
+Z-index
+
+A tömbben lévő sorrend határozza meg a z-indexet. Így feleslegessé válik a `z-index: 1000;` stb. Ha kell egy ujabb elem csak be kell tenni a tömbbe a megfelelő helyre.
+A fölötte lévő elemek z-indexe automatikusan növekszik.
+
+```scss
+$elements: cover, tooltip, error, dropdown, fixed-position, overlay, modal;
+```
+
+### használat:
+
+```scss
+.tooltip {
+	background: #000;
+	z-index: z-index($elements, tooltip);
+}
+```
+### generált:
+```scss
+.tooltip {
+	background: #000;
+	z-index: #{z-index($elements, tooltip)};
+}
+```
+
+Styleguide 3.1
+*/
